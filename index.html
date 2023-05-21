@@ -99,6 +99,13 @@
     
 
     
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/健康-一知半解/">健康,一知半解</a>
+    </span>
+    
 
     </div>
 
@@ -133,10 +140,10 @@
     <div class="entry">
       
         <p>项目中可能会出现消耗大量 CPU 的情况(如下图)，当我们发现这种情况应该怎么排查呢？</p>
-<p><img src="https://tva1.sinaimg.cn/large/008vOhrAgy1hdybhbpeb8j30w40680uy.jpg" alt="image-20230514231506977"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008vOhrAgy1he6e13spa6j31tv0eygsh.jpg" alt="image-20230521224752492"></p>
 <h2 id="top"><a href="#top" class="headerlink" title="top"></a>top</h2><p>首先使用<code>top</code>命令查看所有运行的进程占用资源的情况。可以看到上图中PID为14646的Java进程的CPU使用率达到了799.6%，这明显是有问题的。那我们应该怎么定位那一段代码出问题了呢？</p>
 <h2 id="jstack-p-pid"><a href="#jstack-p-pid" class="headerlink" title="jstack -p pid"></a>jstack -p pid</h2><p>使用 <code>top</code>命令可以得到进程的PID，上述Java程序的PID是14646，我们运行JDK自带的命令<code>jstack</code>命令 dump 正在运行的Java进程堆栈。（如下图）</p>
-<p><img src="https://tva1.sinaimg.cn/large/008vOhrAgy1hdybvqybrwj31b00sfn17.jpg" alt="image-20230514232907822"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008vOhrAgy1he6e53q9hxj31aq0u0jw0.jpg" alt="image-20230521225148644"></p>
 <p>我们根据<code>top</code>命令看到的线程的id（十进制）转为 十六进制，然后在上图中找到对应的堆栈，然后根据堆栈找到代码中的行号。</p>
 <p>这个简单的例子演示了<code>jstack -p pid </code>的使用方法以及生产环境中排查死锁、死循环等问题。</p>
 

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://onlywyt.github.io/blog/3017106146</loc>
+    <loc>https://onlywyt.github.io/blog/402495650</loc>
     
     <lastmod>2023-05-29</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://onlywyt.github.io/blog/1445407464</loc>
+    <loc>https://onlywyt.github.io/blog/3017106146</loc>
     
     <lastmod>2023-05-29</lastmod>
     
@@ -31,7 +31,16 @@
   <url>
     <loc>https://onlywyt.github.io/blog/4218087443</loc>
     
-    <lastmod>2023-05-24</lastmod>
+    <lastmod>2023-05-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://onlywyt.github.io/blog/1445407464</loc>
+    
+    <lastmod>2023-05-29</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -83,6 +92,13 @@
 
   
   <url>
+    <loc>https://onlywyt.github.io/tags/%E5%81%A5%E5%BA%B7-%E4%B8%80%E7%9F%A5%E5%8D%8A%E8%A7%A3/</loc>
+    <lastmod>2023-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://onlywyt.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%8C%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86%EF%BC%8CJava/</loc>
     <lastmod>2023-05-29</lastmod>
     <changefreq>weekly</changefreq>
@@ -90,7 +106,7 @@
   </url>
   
   <url>
-    <loc>https://onlywyt.github.io/tags/%E5%81%A5%E5%BA%B7-%E4%B8%80%E7%9F%A5%E5%8D%8A%E8%A7%A3/</loc>
+    <loc>https://onlywyt.github.io/tags/%E7%88%B1%EF%BC%8C%E8%87%AA%E5%BE%8B%EF%BC%8C%E4%B8%BA%E4%BA%BA%E7%88%B6%E6%AF%8D/</loc>
     <lastmod>2023-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

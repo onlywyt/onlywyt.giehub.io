@@ -2,9 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://onlywyt.github.io/blog/1445407464</loc>
+    
+    <lastmod>2023-05-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://onlywyt.github.io/blog/187293033</loc>
+    
+    <lastmod>2023-05-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://onlywyt.github.io/blog/4218087443</loc>
     
-    <lastmod>2023-05-22</lastmod>
+    <lastmod>2023-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -13,7 +31,7 @@
   <url>
     <loc>https://onlywyt.github.io/blog/2432194193</loc>
     
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2023-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -49,7 +67,7 @@
 
   <url>
     <loc>https://onlywyt.github.io/</loc>
-    <lastmod>2023-05-24</lastmod>
+    <lastmod>2023-05-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -57,7 +75,7 @@
   
   <url>
     <loc>https://onlywyt.github.io/tags/%E5%81%A5%E5%BA%B7-%E4%B8%80%E7%9F%A5%E5%8D%8A%E8%A7%A3/</loc>
-    <lastmod>2023-05-24</lastmod>
+    <lastmod>2023-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

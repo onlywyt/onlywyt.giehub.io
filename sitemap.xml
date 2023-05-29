@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://onlywyt.github.io/blog/3017106146</loc>
+    
+    <lastmod>2023-05-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://onlywyt.github.io/blog/187293033</loc>
     
     <lastmod>2023-05-29</lastmod>
@@ -72,6 +81,13 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>https://onlywyt.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%8C%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86%EF%BC%8CJava/</loc>
+    <lastmod>2023-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://onlywyt.github.io/tags/%E5%81%A5%E5%BA%B7-%E4%B8%80%E7%9F%A5%E5%8D%8A%E8%A7%A3/</loc>

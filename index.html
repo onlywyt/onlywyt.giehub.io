@@ -67,6 +67,192 @@
 
   
     
+    <h3 class="article-title"><a href="/blog/3716094242.html"><span>图解密码技术-CBC模式</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/3716094242.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-09T14:27:33.000Z">
+          2023-08-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <blockquote>
+<p>分组密码(Block Cipher)是一种密码对称加密算法，特点是按照固定长度的块(block)来对数据进行加密和解密。</p>
+</blockquote>
+<h2 id="常见的分组密码以及特点"><a href="#常见的分组密码以及特点" class="headerlink" title="常见的分组密码以及特点"></a>常见的分组密码以及特点</h2><p>常见的分组密码有DES、AES、SM4、Blowfish等。</p>
+<p>分组密码的特点</p>
+<ol>
+<li>分组长度固定，常见的块长度有64位、128位、256位等</li>
+<li>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</li>
+<li>使用对称密钥，加解密使用的是同一个密钥</li>
+<li>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</li>
+</ol>
+<h2 id="分组密码的工作模式"><a href="#分组密码的工作模式" class="headerlink" title="分组密码的工作模式"></a>分组密码的工作模式</h2><p>分组密码算法只能加密固定长度的分组，但是我们需要加密的明文可能会超过分组密码分组的长度，这时候就需要对明文进行切割，分成几组分别进行加密，直到所有的明文加密完成。这种方式就称之为分组密码的<strong>模式</strong>。</p>
+<h3 id="分组密码的主要模式"><a href="#分组密码的主要模式" class="headerlink" title="分组密码的主要模式"></a>分组密码的主要模式</h3><ol>
+<li>ECB模式：(Electronic CodeBook mode) 电子密码本模式</li>
+<li>CBC模式：(Cipher Block Chaining mode) 密码分组链接模式</li>
+<li>CFB模式：(Cipher FeedBack mode) 密文反馈模式</li>
+<li>OFB模式：(Output FeedBack mode)输出反馈模式</li>
+<li>CTR模式：(CounTeR mode) 计数器模式</li>
+</ol>
+<h3 id="ECB模式"><a href="#ECB模式" class="headerlink" title="ECB模式"></a>ECB模式</h3><p>书中介绍ECB模式是将明文直接分组，然后进行分别加密处理。如图：</p>
+<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230809225412547.png" alt="image-20230809225412547"></p>
+<p>从图中可以直观的看出来，明文的分组和密文的分组是完全一致的。在EDB模式中，明文分组和密文分组是一一对应关系，那么如果明文中有两组以上相同的内容那么这些密文也会一样。所以，ECB模式是不安全的。</p>
+<h3 id="Java代码实现ECB加密"><a href="#Java代码实现ECB加密" class="headerlink" title="Java代码实现ECB加密"></a>Java代码实现ECB加密</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">       <span class="comment">// 创建一个AES密钥</span></span><br><span class="line">       <span class="type">SecretKeySpec</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SecretKeySpec</span>(<span class="string">&quot;1234567890123456&quot;</span>.getBytes(StandardCharsets.UTF_8), <span class="string">&quot;AES&quot;</span>);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 创建一个AES/ECB/PKCS5Padding模式的Cipher</span></span><br><span class="line">       <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/ECB/PKCS5Padding&quot;</span>);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 初始化Cipher为加密模式，设置密钥</span></span><br><span class="line">       cipher.init(Cipher.ENCRYPT_MODE, key);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 对&quot;Hello World&quot;字符串进行加密</span></span><br><span class="line">       <span class="type">byte</span>[] encrypted = cipher.doFinal(<span class="string">&quot;Hello World&quot;</span>.getBytes(StandardCharsets.UTF_8));</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 将加密后的数据进行Base64编码，方便打印</span></span><br><span class="line">       <span class="type">String</span> <span class="variable">encryptedBase64</span> <span class="operator">=</span> Base64.getEncoder().encodeToString(encrypted);</span><br><span class="line">       System.out.println(<span class="string">&quot;Encrypted: &quot;</span> + encryptedBase64);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 初始化Cipher为解密模式，设置密钥</span></span><br><span class="line">       cipher.init(Cipher.DECRYPT_MODE, key);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 对加密后的数据进行解密</span></span><br><span class="line">       <span class="type">byte</span>[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedBase64));</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 打印解密后的字符串</span></span><br><span class="line">       System.out.println(<span class="string">&quot;Decrypted: &quot;</span> + <span class="keyword">new</span> <span class="title class_">String</span>(decrypted, StandardCharsets.UTF_8));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="对ECB模式的攻击"><a href="#对ECB模式的攻击" class="headerlink" title="对ECB模式的攻击"></a>对ECB模式的攻击</h3><p><strong>举一个例子：</strong></p>
+<p>假设我们有一个转账的业务，转账的数据由三部分组成；</p>
+<p>分组A = 付款人小明</p>
+<p>分组B=收款人小红</p>
+<p>分组C=金额</p>
+<p>那么使用ECB模式加密和被攻击的动作如下：</p>
+<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230809230257293.png" alt="image-20230809230257293"></p>
+<p>如上图，黑客只是简单的调换了密文的顺序，并没有破译密文，就已经达到攻击的目的。</p>
+<blockquote>
+<p>原本由小明付款，现在变成了小红付款</p>
+</blockquote>
+<p>在ECB模式中，只要将任意密文调换位置，相应的明文也会变换位置，替换密文，明文也会被替换，删除密文，明文也会被删除。所以ECB模式是不安全的。</p>
+<h3 id="CBC模式"><a href="#CBC模式" class="headerlink" title="CBC模式"></a>CBC模式</h3><p>CBC模式是将前一个密文分组与当前明文分组的内容混合起来进行加密，如图</p>
+<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230809231050229.png" alt="image-20230809231050229"></p>
+<p>在CBC模式中，首先将明文分组与前一个密文分组进行异或运算，然后再进行加密。那么，这里会有一个问题，就是第一个明文分组应该与谁进行异或运算呢？</p>
+<h3 id="初始化向量"><a href="#初始化向量" class="headerlink" title="初始化向量"></a>初始化向量</h3><p>当第一个明文加密这时候并不存在“前一个密文分组”。所以，我们需要准备一个初始化值，这个值的长度与分组比特位一致。我们成这个初始化值为<strong>初始化向量</strong>(Initialization Vector)，通常简写为IV。</p>
+<h3 id="异或运算"><a href="#异或运算" class="headerlink" title="异或运算"></a>异或运算</h3><p>异或是一种逻辑运算,对应的逻辑符号是 ⊕；如下表格表示了运算结果</p>
+<table>
+<thead>
+<tr>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">A ⊕ B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<h4 id="异或运算有以下几个特点"><a href="#异或运算有以下几个特点" class="headerlink" title="异或运算有以下几个特点:"></a>异或运算有以下几个特点:</h4><ol>
+<li>当两个输入相同时,输出为0。当两个输入不同时,输出为1。</li>
+<li>异或运算满足交换律和结合律。</li>
+<li>一个数异或它本身结果为0。</li>
+<li>一个数异或0等于本身。</li>
+</ol>
+<h4 id="CBC模式的特点"><a href="#CBC模式的特点" class="headerlink" title="CBC模式的特点"></a>CBC模式的特点</h4><p>因为明文分组在加密之前会和初始化向量进行异或运算，那么即使明文分组1和明文分组2的值是一样的，那么加密结果也会不同。例如：</p>
+<p>明文分组1 = 001</p>
+<p>明文分组2 = 001</p>
+<p>初始化向量 = 000</p>
+<p>明文分组1与初始化向量运算结果 001 ⊕ 000 = 001 </p>
+<p>明文分组1与明文分组2运算结果 001 ⊕ 001 = 000</p>
+<p>因为分组1需要跟初始化向量进行异或，得到的结果必然是不同的。</p>
+<h4 id="Java实现CBC加密"><a href="#Java实现CBC加密" class="headerlink" title="Java实现CBC加密"></a>Java实现CBC加密</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 初始化向量，用于CBC模式的加密</span></span><br><span class="line">        <span class="type">byte</span>[] iv = <span class="keyword">new</span> <span class="title class_">byte</span>[] &#123;<span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>, <span class="number">0x04</span>, <span class="number">0x05</span>, <span class="number">0x06</span>, <span class="number">0x07</span>, <span class="number">0x08</span>, <span class="number">0x09</span>, <span class="number">0x0a</span>, <span class="number">0x0b</span>, <span class="number">0x0c</span>, <span class="number">0x0d</span>, <span class="number">0x0e</span>, <span class="number">0x0f</span>&#125;;</span><br><span class="line">        <span class="type">IvParameterSpec</span> <span class="variable">ivspec</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(iv);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一个AES密钥</span></span><br><span class="line">        <span class="type">SecretKeySpec</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SecretKeySpec</span>(<span class="keyword">new</span> <span class="title class_">byte</span>[] &#123;<span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>, <span class="number">0x04</span>, <span class="number">0x05</span>, <span class="number">0x06</span>, <span class="number">0x07</span>, <span class="number">0x08</span>, <span class="number">0x09</span>, <span class="number">0x0a</span>, <span class="number">0x0b</span>, <span class="number">0x0c</span>, <span class="number">0x0d</span>, <span class="number">0x0e</span>, <span class="number">0x0f</span>&#125;, <span class="string">&quot;AES&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一个AES/CBC/PKCS5Padding模式的Cipher</span></span><br><span class="line">        <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/CBC/PKCS5Padding&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化Cipher为加密模式，设置密钥和初始化向量</span></span><br><span class="line">        cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 对&quot;Hello World&quot;字符串进行加密</span></span><br><span class="line">        <span class="type">byte</span>[] encrypted = cipher.doFinal(<span class="string">&quot;Hello World&quot;</span>.getBytes());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化Cipher为解密模式，设置密钥和初始化向量</span></span><br><span class="line">        cipher.init(Cipher.DECRYPT_MODE, key, ivspec);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 对加密后的数据进行解密</span></span><br><span class="line">        <span class="type">byte</span>[] decrypted = cipher.doFinal(encrypted);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印解密后的字符串</span></span><br><span class="line">        System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(decrypted));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对CBC模式的攻击"><a href="#对CBC模式的攻击" class="headerlink" title="对CBC模式的攻击"></a>对CBC模式的攻击</h3><h4 id="攻击初始化向量"><a href="#攻击初始化向量" class="headerlink" title="攻击初始化向量"></a>攻击初始化向量</h4><p>在加密时CBC模式需要一个初始化向量。这个数据必须是一个安全的、不可预测的随机数列。如果生成的初始化向量随机度不高，那么两个明文使用了相同的IV加密,两个密文的第一个块将是相同的。这样就会计算出第一个密文块,并且解密所有后续的块。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/0.html"><span></span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/0.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-06-26T15:06:22.658Z">
+          2023-06-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230626230547764.png" alt="image-20230626230547764"></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/blog/3017106146.html"><span>代理模式-静态代理</span></a></h3>
     
   

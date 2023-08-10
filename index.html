@@ -67,6 +67,98 @@
 
   
     
+    <h3 class="article-title"><a href="/blog/4282522732.html"><span>图解密码技术-CFB模式</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/4282522732.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-10T14:15:39.000Z">
+          2023-08-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <blockquote>
+<blockquote>
+<p>分组密码(Block Cipher)是一种密码对称加密算法，特点是按照固定长度的块(block)来对数据进行加密和解密。</p>
+</blockquote>
+</blockquote>
+<h2 id="常见的分组密码以及特点"><a href="#常见的分组密码以及特点" class="headerlink" title="常见的分组密码以及特点"></a>常见的分组密码以及特点</h2><p>常见的分组密码有DES、AES、SM4、Blowfish等。</p>
+<p>分组密码的特点</p>
+<ol>
+<li>分组长度固定，常见的块长度有64位、128位、256位等</li>
+<li>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</li>
+<li>使用对称密钥，加解密使用的是同一个密钥</li>
+<li>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</li>
+</ol>
+<h2 id="分组密码的工作模式"><a href="#分组密码的工作模式" class="headerlink" title="分组密码的工作模式"></a>分组密码的工作模式</h2><p>分组密码算法只能加密固定长度的分组，但是我们需要加密的明文可能会超过分组密码分组的长度，这时候就需要对明文进行切割，分成几组分别进行加密，直到所有的明文加密完成。这种方式就称之为分组密码的<strong>模式</strong>。</p>
+<h3 id="分组密码的主要模式"><a href="#分组密码的主要模式" class="headerlink" title="分组密码的主要模式"></a>分组密码的主要模式</h3><ol>
+<li>ECB模式：(Electronic CodeBook mode) 电子密码本模式</li>
+<li>CBC模式：(Cipher Block Chaining mode) 密码分组链接模式</li>
+<li>CFB模式：(Cipher FeedBack mode) 密文反馈模式</li>
+<li>OFB模式：(Output FeedBack mode)输出反馈模式</li>
+<li>CTR模式：(CounTeR mode) 计数器模式</li>
+</ol>
+<p>今天来了解一下CFB模式。</p>
+<h3 id="CFB模式"><a href="#CFB模式" class="headerlink" title="CFB模式"></a>CFB模式</h3><p>CFB模式的全称是 Cipher FeedBack mode（密文反馈模式）。在CFB中模式中，前一个密文分组会被送回到密码算法的输入端。简单理解就是，前一个密文分组在此加密后会当作下一次与明文异或运算的一部分，依次类推。加密过程如下图：</p>
+<img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230810223911494.png" alt="image-20230810223911494" style="zoom:67%;" />
+
+<p><strong>在CBC模式中</strong>，前一个密文分组要和明文组先进行异或运算然后加密最后产生密文分组。如同：</p>
+<img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230810224528410.png" alt="image-20230810224528410" style="zoom:67%;" />
+
+<p><strong>在CFB模式中</strong>，前一个密文分组先进行了加密然后使用加密后的数据和下一个明文分组进行异或运算最后产生密文分组。</p>
+<img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230810224543646.png" alt="image-20230810224543646" style="zoom:67%;" />
+
+<p>在CFB模式中，密码算法的输出值会当作下一次与明文加密的“初始化向量”。书中使用了更加专业的术语——“<strong>密钥流</strong>”。密码算法就相当于一个伪随机数的生成器，而真正的初始化向量则为一个源头。明文数据可以被一个比特一个比特的加密，因此我们可以将CFB模式看做是使用了分组密码来实现<strong>流密码</strong>的一种方式。</p>
+<h3 id="流密码"><a href="#流密码" class="headerlink" title="流密码"></a>流密码</h3><blockquote>
+<p>简单解释就是，加密的密钥流比喻为一个旋转门，我们需要加密的明文就像是一群人。这个旋转门每次只能过去一个人，当所有人一个个的通过旋转门的时候就会与当前旋转门进行一次异或运算。旋转门每一次转动都会产生一个不同的数字，这样当人通过的时候异或的结果也不一样。最终当所有人通过那么就会得到最后的加密之后的数据。</p>
+</blockquote>
+<h3 id="Java代码实现CFB加解密"><a href="#Java代码实现CFB加解密" class="headerlink" title="Java代码实现CFB加解密"></a>Java代码实现CFB加解密</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">           <span class="comment">// 创建一个AES密钥</span></span><br><span class="line">           <span class="type">SecretKeySpec</span> <span class="variable">key</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SecretKeySpec</span>(<span class="string">&quot;1234567890123456&quot;</span>.getBytes(StandardCharsets.UTF_8), <span class="string">&quot;AES&quot;</span>);</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 创建一个初始化向量</span></span><br><span class="line">           <span class="type">IvParameterSpec</span> <span class="variable">iv</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(<span class="string">&quot;1234567890123456&quot;</span>.getBytes(StandardCharsets.UTF_8));</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 创建一个AES/CFB/PKCS5Padding模式的Cipher</span></span><br><span class="line">           <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/CFB/PKCS5Padding&quot;</span>);</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 初始化Cipher为加密模式，设置密钥和初始化向量</span></span><br><span class="line">           cipher.init(Cipher.ENCRYPT_MODE, key, iv);</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 对&quot;Hello World&quot;字符串进行加密</span></span><br><span class="line">           <span class="type">byte</span>[] encrypted = cipher.doFinal(<span class="string">&quot;Hello World&quot;</span>.getBytes(StandardCharsets.UTF_8));</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 将加密后的数据进行Base64编码，方便打印</span></span><br><span class="line">           <span class="type">String</span> <span class="variable">encryptedBase64</span> <span class="operator">=</span> Base64.getEncoder().encodeToString(encrypted);</span><br><span class="line">           System.out.println(<span class="string">&quot;Encrypted: &quot;</span> + encryptedBase64);</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 初始化Cipher为解密模式，设置密钥和初始化向量</span></span><br><span class="line">           cipher.init(Cipher.DECRYPT_MODE, key, iv);</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 对加密后的数据进行解密</span></span><br><span class="line">           <span class="type">byte</span>[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedBase64));</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 打印解密后的字符串</span></span><br><span class="line">           System.out.println(<span class="string">&quot;Decrypted: &quot;</span> + <span class="keyword">new</span> <span class="title class_">String</span>(decrypted, StandardCharsets.UTF_8));</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="CFB模式的攻击方式"><a href="#CFB模式的攻击方式" class="headerlink" title="CFB模式的攻击方式"></a>CFB模式的攻击方式</h3><blockquote>
+<p>书中攻击方式我没有看懂….后期补上</p>
+</blockquote>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/blog/3716094242.html"><span>图解密码技术-CBC模式</span></a></h3>
     
   

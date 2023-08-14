@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>第 2 页 | Liberte blog</title>
+
+  
+  <meta name="author" content="Liberte">
+  
+
+  
+
+  
+  <meta name="keywords" content="Java,Spring,Notes">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="Liberte blog"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Liberte blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Liberte blog</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/search">搜索</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/2432194193.html"><span>Java程序中出现大量CPU消耗问题的排查</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/2432194193.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-05-10T13:42:47.240Z">
+          2023-05-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>项目中可能会出现消耗大量 CPU 的情况(如下图)，当我们发现这种情况应该怎么排查呢？</p>
+<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230521232200245.png" alt="image-20230521232200245"></p>
+<h2 id="top"><a href="#top" class="headerlink" title="top"></a>top</h2><p>首先使用<code>top</code>命令查看所有运行的进程占用资源的情况。可以看到上图中PID为14646的Java进程的CPU使用率达到了799.6%，这明显是有问题的。那我们应该怎么定位那一段代码出问题了呢？</p>
+<h2 id="jstack-p-pid"><a href="#jstack-p-pid" class="headerlink" title="jstack -p pid"></a>jstack -p pid</h2><p>使用 <code>top</code>命令可以得到进程的PID，上述Java程序的PID是14646，我们运行JDK自带的命令<code>jstack</code>命令 dump 正在运行的Java进程堆栈。（如下图）</p>
+<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230521230107816.png" alt="image-20230521230107816"></p>
+<p>我们根据<code>top</code>命令看到的线程的id（十进制）转为 十六进制，然后在上图中找到对应的堆栈，然后根据堆栈找到代码中的行号。</p>
+<p>这个简单的例子演示了<code>jstack -p pid </code>的使用方法以及生产环境中排查死锁、死循环等问题。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/" class="pagination-prev">上一页</a>
+  
+  
+</nav>
+    </main>
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2023 Liberte
+    
+  </p>
+本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

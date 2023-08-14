@@ -67,6 +67,139 @@
 
   
     
+    <h3 class="article-title"><a href="/blog/3573874495.html"><span>图解密码技术-对CFB模式的攻击</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/3573874495.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-14T14:40:07.000Z">
+          2023-08-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="CFB模式简介"><a href="#CFB模式简介" class="headerlink" title="CFB模式简介"></a>CFB模式简介</h2><p>CFB模式全称是（Cipher FeedBack）<strong>密文反馈模式</strong>。加密方式是前一个密文分组会被送回到密码算法的输入端。简单理解就是，前一个密文分组在此加密后会当作下一次与明文异或运算的一部分，依次类推。如图：</p>
+<img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230810223911494.png" alt="image-20230810223911494" style="zoom:100%;" />
+
+<h2 id="CFB模式的解密"><a href="#CFB模式的解密" class="headerlink" title="CFB模式的解密"></a>CFB模式的解密</h2><p>因为CFB模式的加密利用了前一个密文分组，则解密的核心思路就是利用前一个明文分组的加密结果和当前密文进行异或运算得到当前明文。</p>
+<h3 id="文字步骤如下："><a href="#文字步骤如下：" class="headerlink" title="文字步骤如下："></a>文字步骤如下：</h3><ol>
+<li>解密端获得密文块C1、C2、C3…以及一个初始向量IV。</li>
+<li>将IV进行加密,获得第一个密钥块K1。(使用的密钥和加密算法与加密端相同)</li>
+<li>将密钥块K1与密文块C1进行异或,得到明文块P1。</li>
+<li>将刚刚解密得到的明文块P1再次进行加密,生成下一个密钥块K2。</li>
+<li>将K2与下一个密文块C2进行异或,得到明文块P2。</li>
+<li>依此类推,重复步骤4和5,直到所有密文全部解密。</li>
+</ol>
+<h3 id="图示："><a href="#图示：" class="headerlink" title="图示："></a>图示：</h3><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230814225641064.png" alt="image-20230814225641064" style="zoom:100%;" />
+
+<h2 id="CFB模式的攻击"><a href="#CFB模式的攻击" class="headerlink" title="CFB模式的攻击"></a>CFB模式的攻击</h2><p>书中提到了一种攻击方式是<strong>重放攻击。</strong>（replay attack）</p>
+<p>加入小美发送了一条信息，这条信息由4个密文组成。主动攻击者小明将消息的后3个密文分组保存下来，等第二天小美使用相同密钥再一次发送新消息的时候（新消息由4个新的密文组成）。小明就可以将昨天保存的密文分组进行替换。那么在解密的时候就会得到错误的信息。在真实的网络环境中，服务器与服务器之间的对话如果被攻击者利用进行重新发送或者延迟发送数据就会达到欺骗用户的目的。</p>
+<h3 id="Java代码模拟重放攻击"><a href="#Java代码模拟重放攻击" class="headerlink" title="Java代码模拟重放攻击"></a>Java代码模拟重放攻击</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.yt.mvcframework.v2.CFBDemo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.crypto.Cipher;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.KeyGenerator;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.SecretKey;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.spec.IvParameterSpec;</span><br><span class="line"><span class="keyword">import</span> java.security.Key;</span><br><span class="line"><span class="keyword">import</span> java.security.SecureRandom;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.crypto.Cipher;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.KeyGenerator;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.SecretKey;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.spec.IvParameterSpec;</span><br><span class="line"><span class="keyword">import</span> java.security.SecureRandom;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReplayAttackExample</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Server</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> Cipher cipher;</span><br><span class="line">        <span class="keyword">private</span> SecretKey key;</span><br><span class="line">        <span class="keyword">private</span> Map&lt;Long, <span class="type">byte</span>[]&gt; seenMessages = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Server</span><span class="params">(SecretKey key, IvParameterSpec iv)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="built_in">this</span>.key = key;</span><br><span class="line">            <span class="built_in">this</span>.cipher = Cipher.getInstance(<span class="string">&quot;AES/CFB/NoPadding&quot;</span>);</span><br><span class="line">            cipher.init(Cipher.DECRYPT_MODE, key, iv);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">receiveMessage</span><span class="params">(<span class="type">long</span> timestamp, <span class="type">byte</span>[] ciphertext)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="keyword">if</span> (seenMessages.containsKey(timestamp) &amp;&amp;</span><br><span class="line">                    Arrays.equals(seenMessages.get(timestamp), ciphertext)) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Replay attack detected!&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="type">byte</span>[] plaintext = cipher.doFinal(ciphertext);</span><br><span class="line">            System.out.println(<span class="string">&quot;Received message: &quot;</span> + <span class="keyword">new</span> <span class="title class_">String</span>(plaintext));</span><br><span class="line"></span><br><span class="line">            seenMessages.put(timestamp, ciphertext);</span><br><span class="line">            cipher.init(Cipher.DECRYPT_MODE, key, <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> Cipher cipher;</span><br><span class="line">        <span class="keyword">private</span> SecretKey key;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Client</span><span class="params">(SecretKey key, IvParameterSpec iv)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="built_in">this</span>.key = key;</span><br><span class="line">            <span class="built_in">this</span>.cipher = Cipher.getInstance(<span class="string">&quot;AES/CFB/NoPadding&quot;</span>);</span><br><span class="line">            cipher.init(Cipher.ENCRYPT_MODE, key, iv);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="type">byte</span>[] sendMessage(String message) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="type">byte</span>[] ciphertext = cipher.doFinal(message.getBytes());</span><br><span class="line">            cipher.init(Cipher.ENCRYPT_MODE, key, <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(cipher.getParameters().getParameterSpec(IvParameterSpec.class).getIV()));</span><br><span class="line">            <span class="keyword">return</span> ciphertext;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">KeyGenerator</span> <span class="variable">kg</span> <span class="operator">=</span> KeyGenerator.getInstance(<span class="string">&quot;AES&quot;</span>);</span><br><span class="line">        <span class="type">SecretKey</span> <span class="variable">key</span> <span class="operator">=</span> kg.generateKey();</span><br><span class="line"></span><br><span class="line">        <span class="type">SecureRandom</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SecureRandom</span>();</span><br><span class="line">        <span class="type">IvParameterSpec</span> <span class="variable">iv</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(random.generateSeed(<span class="number">16</span>));</span><br><span class="line"></span><br><span class="line">        <span class="type">Server</span> <span class="variable">server</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Server</span>(key, iv);</span><br><span class="line">        <span class="type">Client</span> <span class="variable">client</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Client</span>(key, iv);</span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="variable">timestamp</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="type">byte</span>[] ciphertext = client.sendMessage(<span class="string">&quot;Hello world&quot;</span>);</span><br><span class="line"></span><br><span class="line">        server.receiveMessage(timestamp, ciphertext);</span><br><span class="line">        server.receiveMessage(timestamp, ciphertext);  <span class="comment">// Attempt replay attack</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在上述代码模拟中，客户端向服务器发送了一个加密的消息和一个时间戳，服务器接收到消息后解密并保存。然后，客户端再次发送相同的加密消息和时间戳，试图欺骗服务器认为这是一个新的、合法的消息。</p>
+<p>服务器使用了一个简单的策略来防止重放攻击：它保存了所有接收到的消息和对应的时间戳。当接收到一个新的消息时，服务器会检查它是否已经接收过一个具有相同时间戳和加密消息的消息。如果是，那么服务器就认为这是一个重放攻击，并拒绝处理这个消息。</p>
+<p>这个模拟的关键在于，服务器能够识别并拒绝重放的消息，即使这个消息是合法的并且正确加密的。这是因为在一个安全的系统中，每个消息都应该是唯一的，即使是两个完全相同的消息也应该有不同的时间戳或者序列号，以防止重放攻击。</p>
+</blockquote>
+<h3 id="碰撞攻击"><a href="#碰撞攻击" class="headerlink" title="碰撞攻击"></a>碰撞攻击</h3><p>CFB模式的加密存在一个缺点，那就是相同的明文会产生相同的密文。攻击者可以构造特殊的明文,使得产生大量相同的密文块,从而获取明文信息。</p>
+<h3 id="Java代码模拟碰撞攻击"><a href="#Java代码模拟碰撞攻击" class="headerlink" title="Java代码模拟碰撞攻击"></a>Java代码模拟碰撞攻击</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.crypto.Cipher;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.KeyGenerator;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.SecretKey;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.spec.IvParameterSpec;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CFBAttack</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成密钥</span></span><br><span class="line">    <span class="type">KeyGenerator</span> <span class="variable">kg</span> <span class="operator">=</span> KeyGenerator.getInstance(<span class="string">&quot;AES&quot;</span>);</span><br><span class="line">    <span class="type">SecretKey</span> <span class="variable">key</span> <span class="operator">=</span> kg.generateKey();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化IV</span></span><br><span class="line">    <span class="type">IvParameterSpec</span> <span class="variable">iv</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(<span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">16</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 设置加密模式为CFB,并获得Cipher实例</span></span><br><span class="line">    <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/CFB/NoPadding&quot;</span>);</span><br><span class="line">    cipher.init(Cipher.ENCRYPT_MODE, key, iv);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造明文block1和block2完全相同</span></span><br><span class="line">    <span class="type">byte</span>[] block1 = <span class="string">&quot;HelloWorld&quot;</span>.getBytes();</span><br><span class="line">    <span class="type">byte</span>[] block2 = <span class="string">&quot;HelloWorld&quot;</span>.getBytes();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 加密两块明文</span></span><br><span class="line">    <span class="type">byte</span>[] cipherBlock1 = cipher.doFinal(block1);</span><br><span class="line">    <span class="type">byte</span>[] cipherBlock2 = cipher.doFinal(block2);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 两个密文块由于明文相同也完全相同</span></span><br><span class="line">    <span class="comment">// 这可被攻击者利用来获取明文信息</span></span><br><span class="line">    <span class="keyword">if</span> (java.util.Arrays.equals(cipherBlock1, cipherBlock2)) &#123;</span><br><span class="line">      System.out.println(<span class="string">&quot;Collision attack succeeded!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这个简单的例子构造了相同的明文块,导致CFB模式下产生了相同的密文,模拟了碰撞攻击。实际上攻击者可以通过观察大量密文,找到碰撞的密文块,从而对明文信息进行推断。</p>
+</blockquote>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/427224952.html"><span>图解密码技术-OFB模式</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/427224952.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-11T15:02:01.000Z">
+          2023-08-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/blog/4282522732.html"><span>图解密码技术-CFB模式</span></a></h3>
     
   
@@ -687,61 +820,11 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/blog/2432194193.html"><span>Java程序中出现大量CPU消耗问题的排查</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/blog/2432194193.html" rel="bookmark">
-        <time class="entry-date published" datetime="2023-05-10T13:42:47.240Z">
-          2023-05-10
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>项目中可能会出现消耗大量 CPU 的情况(如下图)，当我们发现这种情况应该怎么排查呢？</p>
-<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230521232200245.png" alt="image-20230521232200245"></p>
-<h2 id="top"><a href="#top" class="headerlink" title="top"></a>top</h2><p>首先使用<code>top</code>命令查看所有运行的进程占用资源的情况。可以看到上图中PID为14646的Java进程的CPU使用率达到了799.6%，这明显是有问题的。那我们应该怎么定位那一段代码出问题了呢？</p>
-<h2 id="jstack-p-pid"><a href="#jstack-p-pid" class="headerlink" title="jstack -p pid"></a>jstack -p pid</h2><p>使用 <code>top</code>命令可以得到进程的PID，上述Java程序的PID是14646，我们运行JDK自带的命令<code>jstack</code>命令 dump 正在运行的Java进程堆栈。（如下图）</p>
-<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230521230107816.png" alt="image-20230521230107816"></p>
-<p>我们根据<code>top</code>命令看到的线程的id（十进制）转为 十六进制，然后在上图中找到对应的堆栈，然后根据堆栈找到代码中的行号。</p>
-<p>这个简单的例子演示了<code>jstack -p pid </code>的使用方法以及生产环境中排查死锁、死循环等问题。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
+  
+  <a href="/page/2/" class="pagination-next">下一页</a>
   
 </nav>
     </main>

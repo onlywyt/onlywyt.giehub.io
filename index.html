@@ -168,7 +168,48 @@
   <div class="article-content">
     <div class="entry">
       
-        
+        <h2 id="常见的分组密码以及特点"><a href="#常见的分组密码以及特点" class="headerlink" title="常见的分组密码以及特点"></a>常见的分组密码以及特点</h2><p>常见的分组密码有DES、AES、SM4、Blowfish等。</p>
+<p>分组密码的特点</p>
+<ol>
+<li>分组长度固定，常见的块长度有64位、128位、256位等</li>
+<li>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</li>
+<li>使用对称密钥，加解密使用的是同一个密钥</li>
+<li>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</li>
+</ol>
+<h2 id="分组密码的工作模式"><a href="#分组密码的工作模式" class="headerlink" title="分组密码的工作模式"></a>分组密码的工作模式</h2><p>分组密码算法只能加密固定长度的分组，但是我们需要加密的明文可能会超过分组密码分组的长度，这时候就需要对明文进行切割，分成几组分别进行加密，直到所有的明文加密完成。这种方式就称之为分组密码的<strong>模式</strong>。</p>
+<h3 id="分组密码的主要模式"><a href="#分组密码的主要模式" class="headerlink" title="分组密码的主要模式"></a>分组密码的主要模式</h3><ol>
+<li>ECB模式：(Electronic CodeBook mode) 电子密码本模式</li>
+<li>CBC模式：(Cipher Block Chaining mode) 密码分组链接模式</li>
+<li>CFB模式：(Cipher FeedBack mode) 密文反馈模式</li>
+<li>OFB模式：(Output FeedBack mode)输出反馈模式</li>
+<li>CTR模式：(CounTeR mode) 计数器模式</li>
+</ol>
+<p>今天来了解一下OFB模式</p>
+<h2 id="OFB模式（Output-Feedback-Mode）"><a href="#OFB模式（Output-Feedback-Mode）" class="headerlink" title="OFB模式（Output Feedback Mode）"></a>OFB模式（Output Feedback Mode）</h2><p>OFB模式我们称之为密文反馈模式。它的工作原理跟CFB模式非常相似，但是OCB模式是利用前一个密文块来作为下一次加密的密钥。如图所示</p>
+<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230815215333577.png" alt="image-20230815215333577"></p>
+<p>在看一下CFB模式的图</p>
+<img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230810223911494.png" alt="image-20230810223911494" style="zoom:67%;" />
+
+<p>下面是书中对这两种模式区别的介绍</p>
+<blockquote>
+<p>OFB 模式和CFB模式的区别仅仅在于<strong>密码算法的输入</strong>。ps:我没懂….</p>
+<p>CFB 模式中，密码算法的输入是前一个密文分组，也就是将密文分组反馈到密码算法中，因此得名“密文反馈模式”</p>
+<p>相对的，OFB模式中，密码算法的输入则是密码算法的前一个输出。也就是将输出反馈给密码算法。因此得名“输出反馈模式”</p>
+</blockquote>
+<p>上面的两段话，我读了很多遍。有一个疑问是：OFB模式中，密码算法的输入则是密码算法的前一个输出。这句话怎么理解呢？</p>
+<p>OFB模式的加密过程是:</p>
+<ol>
+<li>首先利用初始化向量IV进行一次加密运算,生成第一个密钥流块K1。</li>
+<li>将密钥流块K1与第一个明文块P1进行异或,得到第一个密文块C1。</li>
+<li>将刚刚生成的密文块C1再次进行加密,生成下一个密钥流块K2。</li>
+<li>K2同第二个明文块P2进行异或,生成密文块C2。</li>
+<li>依此类推,重复步骤3和4,直到全部明文加密完毕。</li>
+</ol>
+<h2 id="JAVA-代码实现OFB模式加密和解密"><a href="#JAVA-代码实现OFB模式加密和解密" class="headerlink" title="JAVA 代码实现OFB模式加密和解密"></a>JAVA 代码实现OFB模式加密和解密</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.yt.mvcframework.v2.OFBDemo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.crypto.Cipher;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.KeyGenerator;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.SecretKey;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.spec.IvParameterSpec;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OFBEncrypt</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    OFB模式加密示意图:</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    +------------+  +------------+</span></span><br><span class="line"><span class="comment">    |            |  |            |</span></span><br><span class="line"><span class="comment">    |   明文P1   |  |   密钥流   |</span></span><br><span class="line"><span class="comment">    |            |  |     K1     |</span></span><br><span class="line"><span class="comment">    +----+-------+  +------+-----+</span></span><br><span class="line"><span class="comment">         |               |</span></span><br><span class="line"><span class="comment">         |               |</span></span><br><span class="line"><span class="comment">         |               |</span></span><br><span class="line"><span class="comment">    +----v-------+       |</span></span><br><span class="line"><span class="comment">    |            |       |</span></span><br><span class="line"><span class="comment">    |   密文C1   &lt;-------+</span></span><br><span class="line"><span class="comment">    |            |</span></span><br><span class="line"><span class="comment">    +------------+</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. 生成AES密钥</span></span><br><span class="line">        <span class="type">KeyGenerator</span> <span class="variable">kg</span> <span class="operator">=</span> KeyGenerator.getInstance(<span class="string">&quot;AES&quot;</span>);</span><br><span class="line">        <span class="type">SecretKey</span> <span class="variable">key</span> <span class="operator">=</span> kg.generateKey();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 初始化一个全零的IV</span></span><br><span class="line">        <span class="type">IvParameterSpec</span> <span class="variable">iv</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(<span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">16</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 获取Cipher实例,指定OFB模式</span></span><br><span class="line">        <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/OFB/NoPadding&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 初始化Cipher为加密模式,使用key和iv</span></span><br><span class="line">        cipher.init(Cipher.ENCRYPT_MODE, key, iv);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 明文</span></span><br><span class="line">        <span class="type">byte</span>[] plaintext = <span class="string">&quot;Hello World&quot;</span>.getBytes();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6. 加密明文,得到密文</span></span><br><span class="line">        <span class="type">byte</span>[] ciphertext = cipher.doFinal(plaintext);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;OFB Encryption: &quot;</span> + <span class="keyword">new</span> <span class="title class_">String</span>(ciphertext));</span><br><span class="line">        cipher.init(Cipher.DECRYPT_MODE, key, iv);</span><br><span class="line">        <span class="type">byte</span>[] decrypted = cipher.doFinal(ciphertext);</span><br><span class="line">        System.out.println(<span class="string">&quot;OFB Decryption: &quot;</span> + <span class="keyword">new</span> <span class="title class_">String</span>(decrypted));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
       
     </div>
 

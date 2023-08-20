@@ -2,16 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://onlywyt.github.io/blog/330343654</loc>
-    
-    <lastmod>2023-08-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://onlywyt.github.io/blog/1463216031</loc>
+    <loc>https://onlywyt.github.io/blog/2785195764</loc>
     
     <lastmod>2023-08-20</lastmod>
     
@@ -29,9 +20,18 @@
   </url>
   
   <url>
-    <loc>https://onlywyt.github.io/blog/2785195764</loc>
+    <loc>https://onlywyt.github.io/blog/330343654</loc>
     
-    <lastmod>2023-08-16</lastmod>
+    <lastmod>2023-08-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://onlywyt.github.io/blog/1463216031</loc>
+    
+    <lastmod>2023-08-20</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

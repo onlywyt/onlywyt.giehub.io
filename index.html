@@ -201,86 +201,8 @@
 <li>使用对称密钥，加解密使用的是同一个密钥</li>
 <li>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</li>
 </ol>
-<h2 id="分组密码的工作模式"><a href="#分组密码的工作模式" class="headerlink" title="分组密码的工作模式"></a>分组密码的工作模式</h2><p>分组密码算法只能加密固定长度的分组，但是我们需要加密的明文可能会超过分组密码分组的长度，这时候就需要对明文进行切割，分成几组分别进行加密，直到所有的明文加密完成。这种方式就称之为分组密码的<strong>模式</strong>。</p>
-<h3 id="分组密码的主要模式"><a href="#分组密码的主要模式" class="headerlink" title="分组密码的主要模式"></a>分组密码的主要模式</h3><ol>
-<li>ECB模式：(Electronic CodeBook mode) 电子密码本模式</li>
-<li>CBC模式：(Cipher Block Chaining mode) 密码分组链接模式</li>
-<li>CFB模式：(Cipher FeedBack mode) 密文反馈模式</li>
-<li>OFB模式：(Output FeedBack mode)输出反馈模式</li>
-<li>CTR模式：(CounTeR mode) 计数器模式</li>
-</ol>
-<p>今天来了解一下最后一个模式——CTR 模式</p>
-<h2 id="CTR模式（CounTeR）计数器模式"><a href="#CTR模式（CounTeR）计数器模式" class="headerlink" title="CTR模式（CounTeR）计数器模式"></a>CTR模式（CounTeR）计数器模式</h2><p>顾名思义，CTR 模式是一种累加计数进行加密来生成密钥流的<strong>流密码</strong>。</p>
-<h3 id="又提到了流密码"><a href="#又提到了流密码" class="headerlink" title="又提到了流密码"></a>又提到了流密码</h3><blockquote>
-<p>在 CFB 模式中简单介绍过流密码：简单解释就是，加密的密钥流比喻为一个旋转门，我们需要加密的明文就像是一群人。这个旋转门每次只能过去一个人，当所有人一个个的通过旋转门的时候就会与当前旋转门进行一次异或运算。旋转门每一次转动都会产生一个不同的数字，这样当人通过的时候异或的结果也不一样。最终当所有人通过那么就会得到最后的加密之后的数据</p>
-</blockquote>
-<p>那么到底什么是逐次累加来生成密钥呢？如图所示：</p>
-<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230816221923742.png" alt="image-20230816221923742"></p>
-<p>CTR 加密的具体步骤</p>
-<ol>
-<li>生成一个初始化计数器的值IV，其长度与明文长度一致。这个值必须是唯一的，一般情况下取值为可以递增的整数</li>
-<li>将计数器初始值 IV 进行加密与明文分组 A 进行异或运算得到密文分组 A</li>
-<li>然后计数器自增加密，然后与下一个明文分组异或得到下一组密文</li>
-<li>以此类推，知道所有明文加密完成</li>
-</ol>
-<h2 id="关于计数器"><a href="#关于计数器" class="headerlink" title="关于计数器"></a>关于计数器</h2><p>我理解计数器就像一个唯一的序列号，至少对于每一组的明文来说是唯一的，计数器的长度应该与明文的长度保持一致，加入明文的长度是 128 位那么计数器的长度也应该是 128 位。计数器的初始值必须是随机的，每次加密新的明文都需要重新生成，如果使用相同的计数器则会面临<strong>重放攻击</strong>。<u>每个明文块对应一个计数器值,计数器需要逐块递增,不能重复也不能跳跃。</u></p>
-<blockquote>
-<p>​    <strong>CTR模式中每个明文块对应一个计数器值并逐块递增的主要原因有以下几点:</strong></p>
-<ol>
-<li>保证每次异或输入的唯一性。如果计数器重复或者跳跃,多个明文块会使用同一个计数器值进行异或,这会导致密文重复,降低安全强度。</li>
-<li>避免相同明文块产生相同密文。如果计数器不递增,相同的明文块会产生完全相同的密文,这也会泄露明文信息。</li>
-<li>简化并行计算。计数器逐块递增可以让每个明文块的计算相互独立,没有依赖关系,便于进行并行计算。</li>
-<li>保证误差传播有限。即使中间有密文块丢失或损坏,也只会影响该块的解密,不会导致后续所有密文无法解密。</li>
-<li>防止字节级别的明文操作。如果允许计数器跳跃,攻击者可以通过调整计数器对应明文中的字节,来操作明文内容。</li>
-<li>符合CTR模式的设计理念。CTR模式实质上是将块密码转变为流密码,每次加密一个明文字节或位,所以计数器必须连续。</li>
-</ol>
-</blockquote>
-<p><strong>上面的解释来自 ChatGPT</strong></p>
-<h2 id="OFB-模式与-CTR-模式的对比"><a href="#OFB-模式与-CTR-模式的对比" class="headerlink" title="OFB 模式与 CTR 模式的对比"></a>OFB 模式与 CTR 模式的对比</h2><p>OFB和 CTR  模式都是属于<strong>流密码</strong>。CTR 模式使用计数器的值作为密钥流的输入而 OFB 模式使用加密的输出作为下一个密钥流的输入。加密过程如下图：</p>
-<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230816232109495.png" alt="image-20230816232109495"></p>
-<h2 id="Java-语言实现-CTR-模式加解密"><a href="#Java-语言实现-CTR-模式加解密" class="headerlink" title="Java 语言实现 CTR 模式加解密"></a>Java 语言实现 CTR 模式加解密</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.yt.mvcframework.v2.CTRDemo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.crypto.Cipher;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.KeyGenerator;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.SecretKey;</span><br><span class="line"><span class="keyword">import</span> javax.crypto.spec.IvParameterSpec;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.StandardCharsets;</span><br><span class="line"><span class="keyword">import</span> java.security.SecureRandom;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CTRExample</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 生成 AES 密钥</span></span><br><span class="line">        <span class="type">KeyGenerator</span> <span class="variable">kg</span> <span class="operator">=</span> KeyGenerator.getInstance(<span class="string">&quot;AES&quot;</span>);</span><br><span class="line">        <span class="type">SecretKey</span> <span class="variable">key</span> <span class="operator">=</span> kg.generateKey();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用 SecureRandom 生成随机 IV，长度为 16 字节</span></span><br><span class="line">        <span class="type">byte</span>[] ivBytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">16</span>];</span><br><span class="line">        SecureRandom.getInstanceStrong().nextBytes(ivBytes);</span><br><span class="line">        <span class="type">IvParameterSpec</span> <span class="variable">iv</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(ivBytes);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化用于加密的 Cipher 实例，使用 AES/CTR/PKCS5Padding 模式</span></span><br><span class="line">        <span class="type">Cipher</span> <span class="variable">encipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/CTR/PKCS5Padding&quot;</span>);</span><br><span class="line">        encipher.init(Cipher.ENCRYPT_MODE, key, iv);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 加密明文</span></span><br><span class="line">        <span class="type">byte</span>[] plaintext = <span class="string">&quot;Hello, World!&quot;</span>.getBytes();</span><br><span class="line">        <span class="type">byte</span>[] ciphertext = encipher.doFinal(plaintext);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 初始化用于解密的 Cipher 实例，使用相同的密钥和 IV</span></span><br><span class="line">        <span class="type">Cipher</span> <span class="variable">decipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/CTR/PKCS5Padding&quot;</span>);</span><br><span class="line">        decipher.init(Cipher.DECRYPT_MODE, key, iv);</span><br><span class="line">        <span class="comment">//输出密文</span></span><br><span class="line">        System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(ciphertext, StandardCharsets.UTF_8));</span><br><span class="line">        <span class="comment">// 解密密文</span></span><br><span class="line">        <span class="type">byte</span>[] decrypted = decipher.doFinal(ciphertext);</span><br><span class="line">        <span class="comment">//输出解密后的明文</span></span><br><span class="line">        System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(decrypted, StandardCharsets.UTF_8));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查解密后的明文是否和原明文相同</span></span><br><span class="line">        System.out.println(<span class="string">&quot;Decryption successful? &quot;</span> + Arrays.equals(plaintext, decrypted));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="ECB、CBC、CFB、OFB、CTR-的对比"><a href="#ECB、CBC、CFB、OFB、CTR-的对比" class="headerlink" title="ECB、CBC、CFB、OFB、CTR 的对比"></a>ECB、CBC、CFB、OFB、CTR 的对比</h2><table>
-<thead>
-<tr>
-<th>模式</th>
-<th>名称</th>
-<th>优点</th>
-<th>缺点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ECB</td>
-<td>Electronic CodeBook 电子密码本模式</td>
-<td>简单、快速、加解密支持并行</td>
-<td>1.明文重复密文也会重复<br />2.通过混淆密文就会导致明文混淆<br />3.解密错误的密文，对应分组也会错误<br />4.不能抵御重放攻击</td>
-</tr>
-<tr>
-<td>CBC</td>
-<td>Cipher Block Chaining 密文分组链接模式</td>
-<td>明文重复不会反映在密文中<br />解密支持并行计算<br />可以解密任意密文分组</td>
-<td>1.对包含错误信息的密文解密时第一个分组的全部比特以及后一个分组的相应比特都会出错<br />2.加密不支持并行计算</td>
-</tr>
-<tr>
-<td>CFB</td>
-<td>Cipher FeedBack 密文反馈模式</td>
-<td>不需要填充，支持并行计算，能够解密任意分组密文</td>
-<td>1.加密不支持并行计算<br />2.对包含错误信息的密文解密时第一个分组的全部比特以及后一个分组的相应比特都会出错<br />3.不能抵御重放攻击</td>
-</tr>
-<tr>
-<td>OFB</td>
-<td>OutputFeedBack 输出反馈模式</td>
-<td>不需要填充<br />可事先进行加密、解密的准备<br />加解密使用相同结构<br />对包含某些错误比特的密文进行解密时，只有明文中对应的比特会出错</td>
-<td>1.不支持并行计算<br />2.主动攻击者反转密文分钟的某些比特时，明文分组中对应的比特位也会被反转</td>
-</tr>
-<tr>
-<td>CTR</td>
-<td>CounTeR 计数器模式</td>
-<td>不需要填充<br />可事先进行加密、解密的准备<br />加解密使用相同结构<br />对包含某些错误比特的密文进行解密时，只有明文中对应的比特会出错<br />支持并行计算（加解密）</td>
-<td>1.主动攻击者反转密文分钟的某些比特时，明文分组中对应的比特位也会被反转</td>
-</tr>
-</tbody></table>
-
+<h2 id="分组密码的工作模式"><a href="#分组密码的工作模式" class="headerlink" title="分组密码的工作模式"></a>分组密码的工作模式</h2>
+        
       
     </div>
 

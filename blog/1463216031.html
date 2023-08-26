@@ -3,14 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>图解密码技术——公钥密码 | Liberte blog</title>
+  <title>图解密码技术——RSA 公钥密码算法 | Liberte blog</title>
 
   
   <meta name="author" content="Liberte">
   
 
   
-  <meta name="description" content="公钥密码公钥密码（Public-key cryptography）也成为非对称密码。是一种基于密钥对的密码体制。他需要两个密钥：公开密钥（public key ）和私有密钥（private key）。一般使用公钥加密，私钥解密。">
+  <meta name="description" content="公钥密码公钥密码（Public-key cryptography）也称为非对称密码。是一种基于密钥对的密码体制。他需要两个密钥：公开密钥（public key ）和私有密钥（private key）。一般使用公钥加密，私钥解密。
+RSA什么是 RSA ？RSA 是一种公钥密码算法，是目前使用最广泛的公钥密码算法。RSA 三个字母的含义是：它的三位发明者的姓氏首字母——
+Ron Rivest、Adi Shamir 和 Leonard Adleman（Rivest Shamir Adleman）。
+
+在详细介绍 RSA 之前，需要先普及一点数学知识。
+
+取模（余数）我们知道在编程语言中有取模运算，取模运算就是求余数的运算。例如：
+我们要计算 12 除以 5 的余数，运算过程为：
+
+ 12  中有几个 5？答案是 2 个。因为 5 * 2 = 10, 5 * 3 = 15 。所以 12  中只包含 2 个 5
+那么两个 5 相乘不够 12 ，还差多少呢？12 - 10  = 2，这个 2 就是余数。
+那么上述过程用Java 编程语言表示就是：System.out.println(12 % 5); 
+这是简单的取模运算，那么我在来搞的复杂一点，12  这个数字可以分解为 2 * 2 * 2 * 2，也就是 24
+我们来写一次取模的运算 24 mod 5
+
+我们简单回顾了十几二十年前的知识，如果你理解了上面的过程那么你就已经为详细学习 RSA 打好了基础，因为 RSA 的加密解密过程所进行的就是上述运算">
   
 
   
@@ -21,7 +36,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <meta property="og:title" content="图解密码技术——公钥密码"/>
+  <meta property="og:title" content="图解密码技术——RSA 公钥密码算法"/>
 
   <meta property="og:site_name" content="Liberte blog"/>
 
@@ -68,7 +83,7 @@
 
   
     
-    <h3 class="article-title"><span>图解密码技术——公钥密码</span></h3>
+    <h3 class="article-title"><span>图解密码技术——RSA 公钥密码算法</span></h3>
     
   
 
@@ -88,8 +103,45 @@
   <div class="article-content">
     <div class="entry">
       
-        <h2 id="公钥密码"><a href="#公钥密码" class="headerlink" title="公钥密码"></a>公钥密码</h2><p>公钥密码（Public-key cryptography）也成为非对称密码。是一种基于密钥对的密码体制。他需要两个密钥：公开密钥（public key ）和私有密钥（private key）。一般使用公钥加密，私钥解密。</p>
+        <h2 id="公钥密码"><a href="#公钥密码" class="headerlink" title="公钥密码"></a>公钥密码</h2><p>公钥密码（Public-key cryptography）也称为非对称密码。是一种基于密钥对的密码体制。他需要两个密钥：公开密钥（public key ）和私有密钥（private key）。一般使用公钥加密，私钥解密。</p>
+<h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h2><h3 id="什么是-RSA-？"><a href="#什么是-RSA-？" class="headerlink" title="什么是 RSA ？"></a>什么是 RSA ？</h3><p>RSA 是一种公钥密码算法，是目前使用最广泛的公钥密码算法。RSA 三个字母的含义是：它的三位发明者的姓氏首字母——</p>
+<p>Ron Rivest、Adi Shamir 和 Leonard Adleman（Rivest Shamir Adleman）。</p>
+<blockquote>
+<p>在详细介绍 RSA 之前，需要先普及一点数学知识。</p>
+</blockquote>
+<h3 id="取模（余数）"><a href="#取模（余数）" class="headerlink" title="取模（余数）"></a>取模（余数）</h3><p>我们知道在编程语言中有<strong>取模运算</strong>，取模运算就是求余数的运算。例如：</p>
+<p>我们要计算 12 除以 5 的余数，运算过程为：</p>
+<ol>
+<li> 12  中有几个 5？答案是 2 个。因为 5 * 2 = 10, 5 * 3 = 15 。所以 12  中只包含 2 个 5</li>
+<li>那么两个 5 相乘不够 12 ，还差多少呢？12 - 10  = 2，这个 2 就是余数。</li>
+<li>那么上述过程用Java 编程语言表示就是：<code>System.out.println(12 % 5); </code></li>
+<li>这是简单的取模运算，那么我在来搞的复杂一点，12  这个数字可以分解为 2 * 2 * 2 * 2，也就是 2<sup>4</sup></li>
+<li>我们来写一次取模的运算 2<sup>4</sup> mod 5</li>
+</ol>
+<p>我们简单回顾了十几二十年前的知识，如果你理解了上面的过程那么你就已经为详细学习 RSA 打好了基础，<strong>因为 RSA 的加密解密过程所进行的就是上述运算</strong></p>
 <span id="more"></span>
+
+<h2 id="RSA-加密"><a href="#RSA-加密" class="headerlink" title="RSA 加密"></a>RSA 加密</h2><h3 id="RSA-加密的过程"><a href="#RSA-加密的过程" class="headerlink" title="RSA 加密的过程"></a>RSA 加密的过程</h3><p>在 RSA 中，明文、密文、密钥都是用数字表示的。RSA 加密的过程可以用下面的公式来表示：</p>
+<blockquote>
+<p>密文  =  明文<sup>E</sup>   mod   N                               <strong>RSA 加密</strong></p>
+</blockquote>
+<p>我们来对比<strong>取模</strong>中第五步骤：**我们来写一次取模的运算 2<sup>4</sup> mod 5。是不是很像？</p>
+<p><strong>没错，RSA 的加密过程就是明文的 E 次方然后 mod N 的结果。</strong></p>
+<h3 id="公式中的E-和-N"><a href="#公式中的E-和-N" class="headerlink" title="公式中的E 和 N"></a>公式中的E 和 N</h3><p>我们上面公示中有两个中文词：密文、明文。很容易理解是什么意思。那么，公式中的 E 和 N 是什么意思呢？</p>
+<p>别忘了，RSA属于公钥密码算法的一种。公式中的 E 和 N 参与了 RSA 的加密运算过程，那无论是谁知道 E 和 N 的值都是可以进行 RSA 加密的（这也就是常说的任何人都可以使用公钥来加密数据，但是解密就不行了）。所以，E 和 N就是 RSA 的<strong>密钥</strong>。注意，这里提到了<strong>密钥</strong>而不是<strong>公钥</strong>。E 和 N这两个数字的组合才算是 RSA 的公钥。</p>
+<p>到这里，我相信你们已经明白了 RSA 的加密就是“ 明文 E 次方的mod N”。接下来， 我们来了解下 RSA 的解密。</p>
+<h2 id="RSA-解密"><a href="#RSA-解密" class="headerlink" title="RSA 解密"></a>RSA 解密</h2><p>RSA 的解密和加密一样简单。公式如下</p>
+<blockquote>
+<p>明文  =  密文<sup>D</sup>   mod   N                               <strong>RSA 解密</strong></p>
+</blockquote>
+<p>是不是很直观。我们可以把解密的过程描述为：密文 D 次方mod N 等于明文。换句话说就是将密文和自己做 D 次的乘法，然后再用结果除以 N 取余数，就可以得到明文。</p>
+<p><strong>注意🚩：这里使用到的 N 和加密的 N 是同一个数字</strong>。</p>
+<p>根据上面 RSA 加密公式中 E 和 N 的规律我们可以直观的看出来，解密公式中的 D 和 N 就是 RSA 解密用到的密钥，<strong>而这两个数字的组合就是私钥</strong>。</p>
+<h2 id="RSA-加密解密图示"><a href="#RSA-加密解密图示" class="headerlink" title="RSA 加密解密图示"></a>RSA 加密解密图示</h2><p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230826225041270.png" alt="image-20230826225041270"></p>
+<h2 id="Java-语言实现-RSA"><a href="#Java-语言实现-RSA" class="headerlink" title="Java 语言实现 RSA"></a>Java 语言实现 RSA</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">  <span class="comment">// 生成公钥和私钥</span></span><br><span class="line">  <span class="type">KeyPairGenerator</span> <span class="variable">keyPairGenerator</span> <span class="operator">=</span> KeyPairGenerator.getInstance(<span class="string">&quot;RSA&quot;</span>);</span><br><span class="line">  keyPairGenerator.initialize(<span class="number">2048</span>);</span><br><span class="line">  <span class="type">KeyPair</span> <span class="variable">keyPair</span> <span class="operator">=</span> keyPairGenerator.generateKeyPair();</span><br><span class="line">  <span class="type">PublicKey</span> <span class="variable">publicKey</span> <span class="operator">=</span> keyPair.getPublic();</span><br><span class="line">  <span class="type">PrivateKey</span> <span class="variable">privateKey</span> <span class="operator">=</span> keyPair.getPrivate();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 明文</span></span><br><span class="line">  <span class="type">String</span> <span class="variable">plainText</span> <span class="operator">=</span> <span class="string">&quot;hello RSA&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 使用公钥加密</span></span><br><span class="line">  <span class="type">Cipher</span> <span class="variable">encryptCipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;RSA&quot;</span>);</span><br><span class="line">  encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);</span><br><span class="line">  <span class="type">byte</span>[] secretMessage = encryptCipher.doFinal(plainText.getBytes());</span><br><span class="line"></span><br><span class="line">  System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(secretMessage));  <span class="comment">// 加密后的内容</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 使用私钥解密</span></span><br><span class="line">  <span class="type">Cipher</span> <span class="variable">decryptCipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;RSA&quot;</span>);</span><br><span class="line">  decryptCipher.init(Cipher.DECRYPT_MODE, privateKey);</span><br><span class="line">  <span class="type">byte</span>[] decryptedMessage = decryptCipher.doFinal(secretMessage);</span><br><span class="line"></span><br><span class="line">  System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(decryptedMessage));  <span class="comment">// hello RSA</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码首先使用 <code>KeyPairGenerator</code> 类生成一对公钥和私钥。然后定义一个明文字符串 “hello RSA”。接下来，使用公钥和 <code>Cipher</code> 类的 <code>ENCRYPT_MODE</code> 对明文进行加密，加密后的密文是一个字节数组。然后，使用私钥和 <code>Cipher</code> 类的 <code>DECRYPT_MODE</code> 对密文进行解密，得到的结果是一个字节数组，将其转换为字符串，就得到了原始的明文。</p>
+<p>注意，这个示例中使用了 2048 位的密钥，这是因为对于 RSA 加密，密钥的长度越长，安全性就越高，但同时加密和解密所需的时间也会增加。</p>
 
       
     </div>

@@ -67,7 +67,7 @@
 
   
     
-    <h3 class="article-title"><a href="/blog/1463216031.html"><span>图解密码技术——公钥密码</span></a></h3>
+    <h3 class="article-title"><a href="/blog/1463216031.html"><span>图解密码技术——RSA 公钥密码算法</span></a></h3>
     
   
 
@@ -87,7 +87,22 @@
   <div class="article-content">
     <div class="entry">
       
-        <h2 id="公钥密码"><a href="#公钥密码" class="headerlink" title="公钥密码"></a>公钥密码</h2><p>公钥密码（Public-key cryptography）也成为非对称密码。是一种基于密钥对的密码体制。他需要两个密钥：公开密钥（public key ）和私有密钥（private key）。一般使用公钥加密，私钥解密。</p>
+        <h2 id="公钥密码"><a href="#公钥密码" class="headerlink" title="公钥密码"></a>公钥密码</h2><p>公钥密码（Public-key cryptography）也称为非对称密码。是一种基于密钥对的密码体制。他需要两个密钥：公开密钥（public key ）和私有密钥（private key）。一般使用公钥加密，私钥解密。</p>
+<h2 id="RSA"><a href="#RSA" class="headerlink" title="RSA"></a>RSA</h2><h3 id="什么是-RSA-？"><a href="#什么是-RSA-？" class="headerlink" title="什么是 RSA ？"></a>什么是 RSA ？</h3><p>RSA 是一种公钥密码算法，是目前使用最广泛的公钥密码算法。RSA 三个字母的含义是：它的三位发明者的姓氏首字母——</p>
+<p>Ron Rivest、Adi Shamir 和 Leonard Adleman（Rivest Shamir Adleman）。</p>
+<blockquote>
+<p>在详细介绍 RSA 之前，需要先普及一点数学知识。</p>
+</blockquote>
+<h3 id="取模（余数）"><a href="#取模（余数）" class="headerlink" title="取模（余数）"></a>取模（余数）</h3><p>我们知道在编程语言中有<strong>取模运算</strong>，取模运算就是求余数的运算。例如：</p>
+<p>我们要计算 12 除以 5 的余数，运算过程为：</p>
+<ol>
+<li> 12  中有几个 5？答案是 2 个。因为 5 * 2 = 10, 5 * 3 = 15 。所以 12  中只包含 2 个 5</li>
+<li>那么两个 5 相乘不够 12 ，还差多少呢？12 - 10  = 2，这个 2 就是余数。</li>
+<li>那么上述过程用Java 编程语言表示就是：<code>System.out.println(12 % 5); </code></li>
+<li>这是简单的取模运算，那么我在来搞的复杂一点，12  这个数字可以分解为 2 * 2 * 2 * 2，也就是 2<sup>4</sup></li>
+<li>我们来写一次取模的运算 2<sup>4</sup> mod 5</li>
+</ol>
+<p>我们简单回顾了十几二十年前的知识，如果你理解了上面的过程那么你就已经为详细学习 RSA 打好了基础，<strong>因为 RSA 的加密解密过程所进行的就是上述运算</strong></p>
         
       
     </div>
@@ -143,13 +158,7 @@
         <p>首先夸一下理想国。书本的装帧设计和印刷质量是真的好，捧在手里是真的有质感。</p>
 <hr>
 <p>之前一段时间看了一点《<a target="_blank" rel="noopener" href="https://www.books.com.tw/products/0010960415">獨立宣言：一部全球史</a>》。书里介绍，从全球的视角从新审视独立宣言，举世闻名的《独立宣言》不仅仅是美国的立国文书，更为现代世界的文明立下了文明的基础。对世界各地造成了巨大的影响。如今在看这本《美国四百年》更是感触颇深。美国是世界上最强大，最文明的国家之一。美国的《独立宣言》更是被视为国家财富，宣言中的人生而平等、人被赋予了生命权、自由权和追求幸福的权利….每一个字都透着美国特有的光彩。</p>
-<p>《美国四百年》这本书从一开始就不断的强调民主、强调自由的社会环境可以带来无尽的创造力。</p>
-<p>你说这本书是历史书但是它没有历史书那么枯燥，但是它几乎讲述了美国全部的历史。你说它是经济学著作，但是又比一般的经济学好读好懂。没有枯燥乏味的令人昏昏欲睡的经济学名词，但是整个美国历史上几乎所有的经济事件以及没一件发生的背后逻辑都讲述的清清楚楚。可读性极强。</p>
-<p>相信大家都玩过消消乐，有的时候你随手连接的一个弹珠确导致了一大片的弹珠被消灭。细读书里有很多细节都像是在玩消消乐。</p>
-<p>比如：李维斯牛仔裤的出现是淘金产品兴起的副产品，美国 IBM 的崛起是因为大洲之间要做人口普查，无线电报的普及应用是因为泰坦尼克号的事故….</p>
-<p>我还没有读完这本书，但是挑选的几章就已经深深的吸引了我。美国现存的文明和物质是几百年来美国政治经济不断博弈、自由和保守不断碰撞互相制约的产物。</p>
-<p>现在美帝国主义亡我之心不死，我们只有坚持师夷长技才能真正打败他们。</p>
-
+        
       
     </div>
 
@@ -333,11 +342,13 @@
         <h2 id="常见的分组密码以及特点"><a href="#常见的分组密码以及特点" class="headerlink" title="常见的分组密码以及特点"></a>常见的分组密码以及特点</h2><p>常见的分组密码有DES、AES、SM4、Blowfish等。</p>
 <p>分组密码的特点</p>
 <ol>
-<li>分组长度固定，常见的块长度有64位、128位、256位等</li>
-<li>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</li>
-<li>使用对称密钥，加解密使用的是同一个密钥</li>
-<li>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</li>
-<li>
+<li><p>分组长度固定，常见的块长度有64位、128位、256位等</p>
+</li>
+<li><p>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</p>
+</li>
+<li><p>使用对称密钥，加解密使用的是同一个密钥</p>
+</li>
+<li><p>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</p>
         
       
     </div>
@@ -568,74 +579,7 @@
       
         <h2 id="代理模式简述"><a href="#代理模式简述" class="headerlink" title="代理模式简述"></a>代理模式简述</h2><p><strong>代理模式</strong>（Proxy Pattern）是程序设计中的一种设计模式。</p>
 <p>所谓的代理可以简单理解为是一个<strong>中介</strong>。举一个生活中常见的例子：假如小王需要请刘德华唱歌，但是小王自己联系不到刘德华本人，小王只能联系他的经纪人，那么这个经纪人就是刘德华的代理。</p>
-<blockquote>
-<p>在编程世界中，这个[代理者]就是一个<strong>类</strong>。这个类可以作为其它行为的接口。</p>
-</blockquote>
-<p>代理模式的[统一建模语言(UML)</p>
-<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/2880px-Proxy_pattern_diagram.svg.png" alt="[统一建模语言(UML)](https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/2880px-Proxy_pattern_diagram.svg-20230529230514395.png)图"></p>
-<h2 id="代理的分类"><a href="#代理的分类" class="headerlink" title="代理的分类"></a>代理的分类</h2><h3 id="什么是静态代理"><a href="#什么是静态代理" class="headerlink" title="什么是静态代理"></a>什么是静态代理</h3><p>静态代理是代理模式的一种实现方式，它具有以下几个特点：</p>
-<ol>
-<li>目标对象和代理对象实现的是同一个业务接口。UML 图中的 Proxy 类就是代理对象， RealSubject 类就是目标对象</li>
-<li>目标对象必须实现接口。UML 图中的 Proxy 实现了接口 Subject</li>
-<li>代理对象在程序的运行之前已经存在</li>
-<li>能够做到对目标对象的灵活切换，但是无法完成功能的灵活切换</li>
-</ol>
-<h4 id="业务实现"><a href="#业务实现" class="headerlink" title="业务实现"></a>业务实现</h4><p>唱歌。小王需要请刘德华唱歌，刘德华就是目标对象。</p>
-<p>经纪人。经纪人就是代理对象。这个经纪人既可以跟小王对接，也可以跟车的刘德华对接。</p>
-<p>小王，就是所谓的客户端。UML 中的 Client。</p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><ol>
-<li>定义买车的业务接口 Service</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">buyCar</span><span class="params">()</span>;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>目标对象 LiuDeHua</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">buyCar</span><span class="params">()</span>&#123;</span><br><span class="line">  Sout(<span class="string">&quot;我正在唱歌&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>定义代理对象Agent并实现与目标对象一样的接口；并实现买车动作前后需要完成的动作</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">buyCar</span><span class="params">()</span>&#123;</span><br><span class="line">  Sout(<span class="string">&quot;谈价钱&quot;</span>);</span><br><span class="line">  <span class="comment">//买车的动作，需要目标对象自己完成</span></span><br><span class="line">  <span class="type">LiuDeHua</span> <span class="variable">liudehua</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LiuDeHua</span>();</span><br><span class="line">  liudehua.buyCat();</span><br><span class="line">  Sout(<span class="string">&quot;唱完歌，结账&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>测试</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"> <span class="comment">//new 出来代理类</span></span><br><span class="line">  <span class="type">Agent</span> <span class="variable">agent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Agent</span>();</span><br><span class="line">  agent.sing();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>琢磨下：上述例子中，我们只能代理刘德华，那如果来了陈奕迅我们应该怎么办呢？</p>
-<h2 id="面向接口编程"><a href="#面向接口编程" class="headerlink" title="面向接口编程"></a>面向接口编程</h2><p><strong>类中的成员变量设计为接口，方法的形参设计为接口，方法的返回值设计为接口，调用时接口指向实现类</strong></p>
-<p>首先，在上面的例子中，我们的代理类 Agent在自己的类中new了一个 LiuDeHua的实例，然后完成了唱歌前的定价动作和唱歌后的结账动作。那么，这时候我们只能听到刘德华唱的歌。那如果我们现在想要听陈奕迅的歌，应该怎么办呢？难道在 Agent 中在 new 一个 ChenYiXun 的实例吗？我们的代理类（经纪人）每次只能代理一个实例（明星）啊。这时候，我们就要采用<strong>面向接口编程</strong>的方式了。</p>
-<ol>
-<li>我们已经知道有一个接口 Service中有 sing()方法。那么接下来我们将Service 作为Agent 类的成员变量</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Agent</span> <span class="keyword">implements</span> <span class="title class_">Service</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类中的成员变量设计为接口</span></span><br><span class="line">    <span class="keyword">public</span> Service target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>我们实现一个带有参数的构造方法：将 Service 作为参数传进去</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Agent</span> <span class="keyword">implements</span> <span class="title class_">Service</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类中的成员变量设计为接口</span></span><br><span class="line">    <span class="keyword">public</span> Service target;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//传入目标对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Agent</span><span class="params">(Service target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>最后，我们将调用的方法，由直接 new 实现类改为接口指向</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Agent</span> <span class="keyword">implements</span> <span class="title class_">Service</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//类中的成员变量设计为接口</span></span><br><span class="line">    <span class="keyword">public</span> Service target;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//传入目标对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Agent</span><span class="params">(Service target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sing</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;谈价钱....&quot;</span>);</span><br><span class="line">        <span class="comment">//业务功能必须使用目标对象</span></span><br><span class="line">        <span class="comment">//面向接口编程，调用时，接口指向实现类；target就是传进来的实现类，刘德华或者陈奕迅等等....</span></span><br><span class="line">        target.sing();</span><br><span class="line">        System.out.println(<span class="string">&quot;唱完结账.....&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>MyTest 类中的代码：</p>
-<ol>
-<li>第一版；此时 new Agent()调用的是无参构造</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="type">Agent</span> <span class="variable">agent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Agent</span>();</span><br><span class="line">  agent.sing();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>第二版；new Agent(Service target)调用的是参数为 Service 接口的有参构造；此时，会调用 Agent 的有参构造方法</li>
-</ol>
-<p><code>public Agent(Service target) &#123;this.target = target;&#125;</code></p>
-<p>此时做到了接口指向实现类的动作</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="type">Agent</span> <span class="variable">agent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Agent</span>(<span class="keyword">new</span> <span class="title class_">ChenYiXun</span>());</span><br><span class="line">  agent.sing();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>至此，我们实现了一个简单的静态代理，简单了解了面向接口编程的思想。</p>
-
+        
       
     </div>
 

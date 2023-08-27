@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>RSA加密算法中的公钥和密钥 | Liberte blog</title>
+
+  
+  <meta name="author" content="Liberte">
+  
+
+  
+  <meta name="description" content="密钥对在昨天的文章RSA加密算法中提到了两个关键词——公钥、私钥。并且我们知道了，RSA 的加密就是求“明文的E次方 mod N”，解密是求“密文的D次方 mod N”。那么公式中的E、D、N这三个数就是生成的密钥对。
+这三个数字肯定不是随随便便就拿来用的，那样的话加密也太容易被破解了。它们有自己的生成方式。
+RSA密钥对的生成我们先来简单陈述一下RSA密钥对的生成步骤，这其中涉及到了一些数学原理，暂时先不用知道什么意思。因为我也一知半解
+
+选择两个大的随机的质数 p 和 q
+p 和 q进行乘法运算得到的值就是 N，这个N 就是公钥和私钥mod的那个N
+计算 φ(n)， φ(n)= (p-1)*(q-1),其中φ是欧拉函数。暂时先不用知道什么是欧拉函数
+现在来计算E，E 的计算规则是大于1但是小于 φ(n) 并且与 φ(n)互为质数。这个E就是公钥中的次幂数，暂时先不用知道什么是质数
+现在来计算D，我们现在已经计算出来了公钥，E 和 N，那么D的计算规则需要满足以下条件：**(E * D) % φ(N) = 1**。为什么非要满足这个公式呢？因为只要数字D满足上述条件，通过E 和 N 进行加密的数据就可以通过D 和 N 进行解密">
+  
+
+  
+  <meta name="keywords" content="Java,Spring,Notes">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="RSA加密算法中的公钥和密钥"/>
+
+  <meta property="og:site_name" content="Liberte blog"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Liberte blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Liberte blog</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/search">搜索</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>RSA加密算法中的公钥和密钥</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/4133792178.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-26T15:38:31.000Z">
+          2023-08-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="密钥对"><a href="#密钥对" class="headerlink" title="密钥对"></a>密钥对</h2><p>在昨天的文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gItGxsGYi0SH5h237awSS">RSA加密算法</a>中提到了两个关键词——公钥、私钥。并且我们知道了，RSA 的加密就是求“明文的E次方 mod N”，解密是求“密文的D次方 mod N”。那么公式中的E、D、N这三个数就是<strong>生成的密钥对</strong>。</p>
+<p>这三个数字肯定不是随随便便就拿来用的，那样的话加密也太容易被破解了。它们有自己的生成方式。</p>
+<h2 id="RSA密钥对的生成"><a href="#RSA密钥对的生成" class="headerlink" title="RSA密钥对的生成"></a>RSA密钥对的生成</h2><p>我们先来简单陈述一下RSA密钥对的生成步骤，这其中涉及到了一些数学原理，暂时先不用知道什么意思。因为我也一知半解</p>
+<ol>
+<li>选择两个大的随机的质数 p 和 q</li>
+<li>p 和 q进行乘法运算得到的值就是 N，这个N 就是公钥和私钥mod的那个N</li>
+<li>计算 φ(n)， φ(n)= (p-1)*(q-1),其中φ是<strong>欧拉函数</strong>。暂时先不用知道什么是欧拉函数</li>
+<li>现在来计算E，E 的计算规则是大于1但是小于 φ(n) 并且与 φ(n)<strong>互为质数</strong>。这个E就是公钥中的次幂数，暂时先不用知道什么是质数</li>
+<li>现在来计算D，我们现在已经计算出来了公钥，E 和 N，那么D的计算规则需要满足以下条件：**(E * D) % φ(N) = 1**。为什么非要满足这个公式呢？因为只要数字D满足上述条件，通过E 和 N 进行加密的数据就可以通过D 和 N 进行解密</li>
+</ol>
+<span id="more"></span>
+
+<p>经过上述五个步骤，我们已经成功按照规则生成了RSA 的公钥和私钥，现在来详细解释一下让我们迷糊的名词和公式符号</p>
+<ol>
+<li><p>选择两个<strong>互质</strong>的数字，p 和 q。什么是质数呢？ </p>
+<ol>
+<li>质数：质数（Prime number）是指大于1且只能被1和自身整除的正整数。换句话说，质数没有除了1和它本身之外的其他正因数。例如：2，3，5，7</li>
+<li>那为什么要选择质数呢？根据上面的解释我们可以看出来质数因为只能被1和本身整出，所以质数只有两个因数，那就是1 和 本身，换句话说就是质数的分解是唯一的，换句话说就是每个正整数都可以唯一地分解为质数的乘积，这被称为唯一质因数分解定理。</li>
+<li>什么是互为质数：是指这两个整数的最大公因数（最大公约数）为1，即它们没有除了1以外的公共正因数。</li>
+</ol>
+</li>
+<li><p>第三步中提到了一个函数符号——φ(n)。这个φ符号表示：“欧拉函数”。那什么是“欧拉函数”？</p>
+<ol>
+<li><p>欧拉函数 φ是以欧拉命名的一个数论函数。它表示对于一个正整数m,在小于等于m的正整数中与m互质的正整数的个数。（维基百科）</p>
+</li>
+<li><p>(n)代表了一个正整数n。φ(n) 合起来表达的意思是：对于给定的正整数n，计算小于等于n并且与n本身互为质数的正整数个数。上面这两句话读起来很难理解，每个字都认识，但是连起来的意思总觉得模模糊糊。下面举个例子：</p>
+<ol>
+<li><p>当 n =10 ，φ(n) = 4。为什么呢？因为：小于等于10的正整数有:1,2,3,4,5,6,7,8,9,10</p>
+<p>其中与10互质的有:1,3,7,9。所以 φ(n) = 4。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>现在上述步骤中难以理解的公式和名词都解释了， 我们尝试来生成一个RSA 的密钥对。</strong></p>
+</li>
+</ol>
+<h2 id="实践一下，生成一个RSA的密钥对"><a href="#实践一下，生成一个RSA的密钥对" class="headerlink" title="实践一下，生成一个RSA的密钥对"></a>实践一下，生成一个RSA的密钥对</h2><p>按照步骤我们应该先选择两个大的随机的质数， 这里我们选择p = 3, q = 13</p>
+<p>第二步中N = p * q ，则N = 3 *13 = 39</p>
+<p>第三步骤计算：φ(n)= (p-1)*(q-1) ，把p = 3, q = 13代入到公式中计算得出φ(n)= 24.这表示当N等于39的时候，与39互质的整数的个数是24。现在我们知道φ(n)=24，那么就可以计算第四步骤中的E</p>
+<p>E的计算规则是大于1但是小于 φ(n) 并且与 φ(n)<strong>互为质数</strong>。公式表示就是 1 &lt;  E  &lt; φ(n) , 我们知道了φ(n) = 24，所以E 这个数字的取值范围就是 1、5、7、11、13、17 ….我们可以看出有很多数字，但是并不是都满足条件，我们选择11这个数字作为E 的值。</p>
+<p>到此，我们已经计算出了E  = 11 ，N = 24。这两个数字将作为我们的公钥。</p>
+<p>因为N这个数字公钥私钥都会用到，所以接下来我们只需要计算D就可以了。</p>
+<p>第五步中D的计算公式为：**(E * D) % φ(N) = 1**，E = 11，D 未知，φ(N) = 24。经过计算得出：D = 23</p>
+<h2 id="计算过程如下："><a href="#计算过程如下：" class="headerlink" title="计算过程如下："></a>计算过程如下：</h2><blockquote>
+<p>我们想要找到一个值 D，使得以下方程成立： (E * D) % φ(N) = 1；好像是废话</p>
+<ol>
+<li><p>使用扩展欧几里德算法计算 11 和24的最大公约数（GCD）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">要求求解D的值。</span><br><span class="line"></span><br><span class="line">具体计算步骤如下:</span><br><span class="line"></span><br><span class="line">计算11与24的最大公约数 gcd(11,24) = 1</span><br><span class="line">因为gcd(11,24)=1,所以方程有解</span><br><span class="line">使用扩展欧几里得算法求11对24的模反元素D:</span><br><span class="line">设:r0 = 24</span><br><span class="line"></span><br><span class="line">r1 = 11</span><br><span class="line">r2 = r0 % r1 = 24 % 11 = 2</span><br><span class="line"></span><br><span class="line">递归计算:</span><br><span class="line">r3 = r1 % r2 = 11 % 2 = 1</span><br><span class="line"></span><br><span class="line">r4 = r2 % r3 = 2 % 1 = 0</span><br><span class="line"></span><br><span class="line">得到:r3 = gcd(11,24) = 1</span><br><span class="line"></span><br><span class="line">所以11对24的模反元素是r2的值,即:</span><br><span class="line"></span><br><span class="line">D = 2</span><br><span class="line"></span><br><span class="line">将D=2代入原方程验证: (11 * 2) mod 24 = 22</span><br><span class="line">结果不是1,所以D≠2。</span><br><span class="line"></span><br><span class="line">继续递归计算:</span><br><span class="line">r5 = r3 % r4 = 1 % 0 = 1</span><br><span class="line"></span><br><span class="line">r6 = r4 % r5 = 0 % 1 = 0</span><br><span class="line"></span><br><span class="line">得到:r5 = gcd(11,24) = 1</span><br><span class="line"></span><br><span class="line">所以11对24的模反元素是r4的值,即:</span><br><span class="line"></span><br><span class="line">D = 23</span><br><span class="line"></span><br><span class="line">重新验证: (11 * 23) mod 24 = 1</span><br><span class="line">综上,在给定的方程 11 * D mod 24 = 1 中,D=23。</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>我自己按照维基百科的方法计算了三遍，都不对，最后求助了GPT。😆</p>
+</blockquote>
+<p>现在我们终于把公钥私钥都计算完了。</p>
+<p>公钥：E  = 11 ， N = 39 </p>
+<p>私钥：D = 23    ,   N = 39</p>
+<h2 id="加密一波试试"><a href="#加密一波试试" class="headerlink" title="加密一波试试"></a>加密一波试试</h2><p>我们现在是用自己计算出来的公钥加密一段数字试试，RSA 的明文规则是小于N 的数，所以。我们取明文为8。代入加密公式：<strong>密文  =  明文<sup>E</sup>   mod   N</strong>                                                    8 <sup>11</sup>  mod  39 = 5，  得到密文为5</p>
+<p>将 20 代入到解密公式：<strong>明文  =  密文<sup>D</sup>   mod   N</strong>              5 <sup>23</sup> mod 39 =  8,       得到明文为8</p>
+<h2 id="计算过程"><a href="#计算过程" class="headerlink" title="计算过程"></a>计算过程</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 上述代码首先初始化了基数 datai，指数 ED 和模数 N，然后定义了一个变量 result 存储计算结果。</span></span><br><span class="line"><span class="comment">     * 接着，代码使用一个 for 循环，循环次数为指数的值。在每次循环中，都会将 result 乘以基数，</span></span><br><span class="line"><span class="comment">     * 然后对模数取模，以此来实现 (a*b)%c = (a%c * b%c)%c 这个公式。最后，代码打印出结果。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> datai</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ED</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> N</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">mod</span><span class="params">(<span class="type">int</span> data, <span class="type">int</span> ED, <span class="type">int</span> N)</span> &#123;</span><br><span class="line">   <span class="type">long</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">   <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; i1; j++) &#123;</span><br><span class="line">     result = result * i % i2;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> result;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC81ODQ5Ni8zNDk1OQ==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    </main>
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2023 Liberte
+    
+  </p>
+本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

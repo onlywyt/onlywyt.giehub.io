@@ -67,6 +67,68 @@
 
   
     
+    <h3 class="article-title"><a href="/blog/4133792178.html"><span>RSA加密算法中的公钥和密钥</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/4133792178.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-26T15:38:31.000Z">
+          2023-08-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="密钥对"><a href="#密钥对" class="headerlink" title="密钥对"></a>密钥对</h2><p>在昨天的文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/gItGxsGYi0SH5h237awSS">RSA加密算法</a>中提到了两个关键词——公钥、私钥。并且我们知道了，RSA 的加密就是求“明文的E次方 mod N”，解密是求“密文的D次方 mod N”。那么公式中的E、D、N这三个数就是<strong>生成的密钥对</strong>。</p>
+<p>这三个数字肯定不是随随便便就拿来用的，那样的话加密也太容易被破解了。它们有自己的生成方式。</p>
+<h2 id="RSA密钥对的生成"><a href="#RSA密钥对的生成" class="headerlink" title="RSA密钥对的生成"></a>RSA密钥对的生成</h2><p>我们先来简单陈述一下RSA密钥对的生成步骤，这其中涉及到了一些数学原理，暂时先不用知道什么意思。因为我也一知半解</p>
+<ol>
+<li>选择两个大的随机的质数 p 和 q</li>
+<li>p 和 q进行乘法运算得到的值就是 N，这个N 就是公钥和私钥mod的那个N</li>
+<li>计算 φ(n)， φ(n)= (p-1)*(q-1),其中φ是<strong>欧拉函数</strong>。暂时先不用知道什么是欧拉函数</li>
+<li>现在来计算E，E 的计算规则是大于1但是小于 φ(n) 并且与 φ(n)<strong>互为质数</strong>。这个E就是公钥中的次幂数，暂时先不用知道什么是质数</li>
+<li>现在来计算D，我们现在已经计算出来了公钥，E 和 N，那么D的计算规则需要满足以下条件：**(E * D) % φ(N) = 1**。为什么非要满足这个公式呢？因为只要数字D满足上述条件，通过E 和 N 进行加密的数据就可以通过D 和 N 进行解密</li>
+</ol>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/blog/1463216031.html"><span>图解密码技术——RSA 公钥密码算法</span></a></h3>
     
   
@@ -596,58 +658,6 @@
     <span class="post-tags">
       <i class="icon-tags"></i>
         <a href="/tags/设计模式，静态代理，Java/">设计模式，静态代理，Java</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/blog/402495650.html"><span>爱，至关重要</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/blog/402495650.html" rel="bookmark">
-        <time class="entry-date published" datetime="2023-05-28T12:26:38.000Z">
-          2023-05-28
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="自律"><a href="#自律" class="headerlink" title="自律"></a>自律</h2>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/爱，自律，为人父母/">爱，自律，为人父母</a>
     </span>
     
 

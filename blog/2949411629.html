@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>学习 SHELL | Liberte blog</title>
+
+  
+  <meta name="author" content="Liberte">
+  
+
+  
+  <meta name="description" content="编写一个命令，它可以递归地查找文件夹中所有的HTML文件，并将它们压缩成zip文件。注意，即使文件名中包含空格，您的命令也应该能够正确执行
+
+1find . -type f -name &amp;quot;*.html&amp;quot; | xargs -d &amp;#x27;\n&amp;#x27; -I&amp;#123;&amp;#12">
+  
+
+  
+  <meta name="keywords" content="Java,Spring,Notes">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="学习 SHELL"/>
+
+  <meta property="og:site_name" content="Liberte blog"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Liberte blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Liberte blog</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+        <li><a href="/search">搜索</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>学习 SHELL</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/2949411629.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-09-02T13:23:59.000Z">
+          2023-09-02
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <ol>
+<li>编写一个命令，它可以递归地查找文件夹中所有的HTML文件，并将它们压缩成zip文件。注意，即使文件名中包含空格，您的命令也应该能够正确执行</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -<span class="built_in">type</span> f -name <span class="string">&quot;*.html&quot;</span> | xargs -d <span class="string">&#x27;\n&#x27;</span> -I&#123;&#125; zip html_files.zip &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>编写两个bash函数 <code>marco</code> 和 <code>polo</code> 执行下面的操作。 每当你执行 <code>marco</code> 时，当前的工作目录应当以某种形式保存，当执行 <code>polo</code> 时，无论现在处在什么目录下，都应当 <code>cd</code> 回到当时执行 <code>marco</code> 的目录。 为了方便debug，你可以把代码写在单独的文件 <code>marco.sh</code> 中，并通过 <code>source marco.sh</code>命令，（重新）加载函数。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存当前工作目录</span></span><br><span class="line"><span class="function"><span class="title">marco</span></span>() &#123;</span><br><span class="line">	<span class="built_in">export</span> MARCO_DIR=$(<span class="built_in">pwd</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回到 marco 保存的目录</span></span><br><span class="line"><span class="function"><span class="title">polo</span></span>() &#123;</span><br><span class="line">	<span class="built_in">cd</span> <span class="variable">$MARCO_DIR</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 1.首先运行source marco.sh,然后在当前目录运行marco</span></span><br><span class="line"><span class="comment"># 2.cd 到任意目录，运行polo,就会返回到当时执行 `marco` 的目录</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230902212716936.png" alt="image-20230902212716936"></p>
+<ol start="3">
+<li>编写一个命令或脚本递归的查找文件夹中最近使用的文件。更通用的做法，你可以按照最近的使用时间列出文件吗？</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">type</span>=<span class="variable">$1</span> <span class="comment"># m-modified时间 a-访问时间</span></span><br><span class="line"></span><br><span class="line">find . -<span class="built_in">type</span> f -print0 | xargs -0 <span class="built_in">stat</span> -f <span class="string">&#x27;%$&#123;type&#125;%t%S$&#123;type&#125; %N&#x27;</span> | <span class="built_in">sort</span> -nr</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+
+
+
+<!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC81ODQ5Ni8zNDk1OQ==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    </main>
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2023 Liberte
+    
+  </p>
+本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

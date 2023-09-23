@@ -67,6 +67,339 @@
 
   
     
+    <h3 class="article-title"><a href="/blog/1599102989.html"><span>Java 面试十大烂问题</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/1599102989.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-09-23T08:44:38.000Z">
+          2023-09-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <ol>
+<li><h3 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h3><p>面向对象编程（OOP）主要是基于四个原则：封装、集成、多态、抽象。</p>
+<p>这四个原则共同构成了面向对象编程的基础。在代码的提现上则会使得代码模块化、可重用以及更加容易维护。</p>
+<p>封装使得代码内部的细节实现得以屏蔽，隐藏了代码内部的复杂性，继承则可以使得代码重复使用以及职责单一化，多态则允许对象之间互相转换，抽象侧重于将复杂的业务模型化、简单化</p>
+</li>
+<li><h4 id="Java-中最快的搜索算法"><a href="#Java-中最快的搜索算法" class="headerlink" title="Java 中最快的搜索算法"></a>Java 中最快的搜索算法</h4><p>Java 中比较常见且最常使用的算法是二分搜索和 hash 搜索。二分搜索主要适用于已经有序的数组或者列表。时间复杂度是O(log n)。</p>
+<h5 id="Java代码实现二分查找"><a href="#Java代码实现二分查找" class="headerlink" title="Java代码实现二分查找"></a>Java代码实现二分查找</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.toca.bjca;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BinarySearchExample</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">binarySearch</span><span class="params">(<span class="type">int</span>[] array, <span class="type">int</span> target)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> array.length - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">      <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right - left) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (array[mid] == target) &#123;</span><br><span class="line">        <span class="keyword">return</span> mid;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (array[mid] &lt; target) &#123;</span><br><span class="line">        left = mid + <span class="number">1</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        right = mid - <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>; <span class="comment">// Target element not found</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span>[] array = &#123;<span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">38</span>, <span class="number">56</span>, <span class="number">72</span>, <span class="number">91</span>&#125;;</span><br><span class="line">    <span class="type">int</span> <span class="variable">target</span> <span class="operator">=</span> <span class="number">23</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> binarySearch(array, target);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (index != -<span class="number">1</span>) &#123;</span><br><span class="line">      System.out.println(<span class="string">&quot;Element found at index: &quot;</span> + index);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      System.out.println(<span class="string">&quot;Element not found&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>hash 搜索则是基于 hash 值的定位进行查找数据。主要是使用 HashMap 或者 HashSet这种数据结构，时间复杂度是 O((1))。</p>
+<h5 id="java-代码实现-Hash-搜索"><a href="#java-代码实现-Hash-搜索" class="headerlink" title="java 代码实现 Hash 搜索"></a>java 代码实现 Hash 搜索</h5></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  Map&lt;String, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">  map.put(<span class="string">&quot;John&quot;</span>, <span class="number">25</span>);</span><br><span class="line">  map.put(<span class="string">&quot;Jane&quot;</span>, <span class="number">30</span>);</span><br><span class="line">  map.put(<span class="string">&quot;Alice&quot;</span>, <span class="number">42</span>);</span><br><span class="line">  map.put(<span class="string">&quot;Bob&quot;</span>, <span class="number">35</span>);</span><br><span class="line"></span><br><span class="line">  <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> <span class="string">&quot;Jane&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">value</span> <span class="operator">=</span> map.get(key);</span><br><span class="line">    System.out.println(<span class="string">&quot;Value for key &quot;</span> + key + <span class="string">&quot;: &quot;</span> + value);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Key not found&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-JDK-和-JRE-是什么"><a href="#3-JDK-和-JRE-是什么" class="headerlink" title="3 JDK 和 JRE 是什么"></a>3 JDK 和 JRE 是什么</h4><p>JDK 代表的是 Java 开发工具包，JRE 是 Java 的运行时环境。JDK 是一个软件包，包括 Java 开发所需的一些工具例如：编译器、调试器、Java API，JDK 中还包括 JRE。</p>
+<p>JRE 则是Java运行时环境。但是不包含开发工具</p>
+<h4 id="4-谈谈多线程"><a href="#4-谈谈多线程" class="headerlink" title="4 谈谈多线程"></a>4 谈谈多线程</h4><p>多线程是指在单个应用程序中同时间可以运行一个以上的线程任务。线程是轻量级的执行单元，它允许任务同时执行，从而提高应用程序的执行性能和响应能力。多线程执行任务还可以更大限度的利用多核 CPU 实现并行的任务处理，例如 I/O 操等</p>
+<h5 id="Java-中的多线程"><a href="#Java-中的多线程" class="headerlink" title="Java 中的多线程"></a>Java 中的多线程</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  <span class="comment">// Create two threads</span></span><br><span class="line">  <span class="type">Thread</span> <span class="variable">thread1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">MyRunnable</span>(<span class="string">&quot;Thread 1&quot;</span>));</span><br><span class="line">  <span class="type">Thread</span> <span class="variable">thread2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">MyRunnable</span>(<span class="string">&quot;Thread 2&quot;</span>));</span><br><span class="line">  <span class="comment">// Start the threads</span></span><br><span class="line">  thread1.start();</span><br><span class="line">  thread2.start();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">MyRunnable</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> String threadName;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">MyRunnable</span><span class="params">(String threadName)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.threadName = threadName;</span><br><span class="line">  &#125;</span><br><span class="line"> <span class="comment">//process bus</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++) &#123;</span><br><span class="line">      System.out.println(threadName + <span class="string">&quot;: &quot;</span> + i);</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        Thread.sleep(<span class="number">1000</span>); <span class="comment">// Pause for 1 second</span></span><br><span class="line">      &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-java中创建对象的方法"><a href="#5-java中创建对象的方法" class="headerlink" title="5 java中创建对象的方法"></a>5 java中创建对象的方法</h4><p>在 Java 中创建对象的方法有四种：使用 new 关键字、调用 clone()、使用反射创建对象、使用反序列化创建对象。</p>
+<h5 id="Java-代码示例"><a href="#Java-代码示例" class="headerlink" title="Java 代码示例"></a>Java 代码示例</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Using the new keyword</span></span><br><span class="line"><span class="type">MyObject</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyObject</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Cloning an object</span></span><br><span class="line"><span class="type">MyObject</span> <span class="variable">obj2</span> <span class="operator">=</span> obj.clone();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Creating an object using reflection</span></span><br><span class="line">Class&lt;MyObject&gt; clazz = MyObject.class;</span><br><span class="line"><span class="type">MyObject</span> <span class="variable">obj3</span> <span class="operator">=</span> clazz.newInstance();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Creating an object through deserialization</span></span><br><span class="line"><span class="type">ObjectInputStream</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;object.ser&quot;</span>));</span><br><span class="line"><span class="type">MyObject</span> <span class="variable">obj4</span> <span class="operator">=</span> (MyObject) in.readObject();</span><br></pre></td></tr></table></figure>
+
+<h4 id="6比较-Java-中的接口和抽象类。为什么更喜欢接口而不是抽象类？"><a href="#6比较-Java-中的接口和抽象类。为什么更喜欢接口而不是抽象类？" class="headerlink" title="6比较 Java 中的接口和抽象类。为什么更喜欢接口而不是抽象类？"></a>6比较 Java 中的接口和抽象类。为什么更喜欢接口而不是抽象类？</h4><p>接口和抽象类都允许定义类的共同行为。然而，接口提供了纯粹的抽象，允许类实现多个接口，而一个类只能扩展一个抽象类。接口定义契约，从而实现组件之间的松散耦合。抽象类提供部分实现，并且可以具有实例变量、构造函数和非抽象方法。当类需要支持多种行为或创建公共 API 时，接口是首选。</p>
+<h4 id="7-解释一下Java中Comparator和Comparable接口的区别"><a href="#7-解释一下Java中Comparator和Comparable接口的区别" class="headerlink" title="7 解释一下Java中Comparator和Comparable接口的区别"></a>7 解释一下Java中Comparator和Comparable接口的区别</h4><p>Java中Comparator和Comparable都是用于对象比较的。 Comparable 接口由类实现，以定义其对象的自然顺序。它提供了一个 <code>compareTo()</code> 方法来比较对象。 Comparator 接口允许对可能没有自然排序的对象进行自定义比较逻辑。它提供了一个 <code>compare()</code> 方法来执行比较。虽然 Comparable 强加了自然排序，但 Comparator 允许灵活地定义不同的比较策略。</p>
+<h5 id="Java-代码示例-1"><a href="#Java-代码示例-1" class="headerlink" title="Java 代码示例"></a>Java 代码示例</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> <span class="keyword">implements</span> <span class="title class_">Comparable</span>&lt;Person&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compareTo</span><span class="params">(Person other)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.name.compareTo(other.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Comparator interface</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AgeComparator</span> <span class="keyword">implements</span> <span class="title class_">Comparator</span>&lt;Person&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(Person p1, Person p2)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> p1.getAge() - p2.getAge();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8HashMap-与-HashTable"><a href="#8HashMap-与-HashTable" class="headerlink" title="8HashMap 与 HashTable"></a>8HashMap 与 HashTable</h4><p>HashMap和HashTable都是用来存储键值对的。然而，HashTable 是一个同步类，使其线程安全，但可能速度较慢。 HashMap 不是同步的，提供了更好的性能，但本质上不是线程安全的。 HashMap 允许空键和值，而 HashTable 不允许空值。在大多数情况下，除非明确要求线程安全，否则 HashMap 是首选</p>
+<h4 id="9-Java-中-LinkedList-和-List-接口的区别"><a href="#9-Java-中-LinkedList-和-List-接口的区别" class="headerlink" title="9 Java 中 LinkedList 和 List 接口的区别"></a>9 Java 中 LinkedList 和 List 接口的区别</h4><p>List 接口是 Java Collections Framework 中的一个基本接口，表示有序集合。 LinkedList 是 List 接口的实现，它将元素存储在双向链表中。 LinkedList提供了高效的两端元素插入和删除，但随机访问速度较慢。 ArrayList 是另一种 List 实现，它将元素存储在动态调整大小的数组中，与 LinkedList 相比，提供更快的随机访问，但插入和删除速度更慢</p>
+<h4 id="10-解释一下Java中引用值和变量值的区别。"><a href="#10-解释一下Java中引用值和变量值的区别。" class="headerlink" title="10 解释一下Java中引用值和变量值的区别。"></a>10 解释一下Java中引用值和变量值的区别。</h4><p>在 Java 引用值是指向对象内存地址的。它允许访问和操作对象的属性和方法。变量值则是变量所保存的实际值。对于原始数据类型（例如 int  boolean）变量值是直接分配给变量的值。对于引用类型（例如 new  User()）变量值就是引用值指向内存地址。</p>
+<h5 id="Java-代码"><a href="#Java-代码" class="headerlink" title="Java 代码"></a>Java 代码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.toca.bjca;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReferenceValueVsVariableValueExample</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">variableValue</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">anotherVariableValue</span> <span class="operator">=</span> variableValue;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Variable Value: &quot;</span> + variableValue);</span><br><span class="line">        System.out.println(<span class="string">&quot;Another Variable Value: &quot;</span> + anotherVariableValue);</span><br><span class="line"></span><br><span class="line">        anotherVariableValue = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Variable Value: &quot;</span> + variableValue);</span><br><span class="line">        System.out.println(<span class="string">&quot;Another Variable Value: &quot;</span> + anotherVariableValue);</span><br><span class="line"></span><br><span class="line">        <span class="type">Person</span> <span class="variable">person1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;John&quot;</span>);</span><br><span class="line">        <span class="type">Person</span> <span class="variable">person2</span> <span class="operator">=</span> person1;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Person 1: &quot;</span> + person1.getName());</span><br><span class="line">        System.out.println(<span class="string">&quot;Person 2: &quot;</span> + person2.getName());</span><br><span class="line"></span><br><span class="line">        person2.setName(<span class="string">&quot;Jane&quot;</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Person 1: &quot;</span> + person1.getName());</span><br><span class="line">        System.out.println(<span class="string">&quot;Person 2: &quot;</span> + person2.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">(String name)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.name = name;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> name;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.name = name;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码表明：变量的值是相互独立的，引用值指向内存地址中的一个对象。修改引用值则会影响到此对象的所有引用，因为内存地址发生了变化。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/面试-Non-template-issues/">面试 Non-template issues</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/3171891702.html"><span>性能之巅-读书笔记（1）</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/3171891702.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-09-21T14:33:06.000Z">
+          2023-09-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h4 id="system-wide-analysis-意思是对整个系统进行的分析。"><a href="#system-wide-analysis-意思是对整个系统进行的分析。" class="headerlink" title="system-wide analysis 意思是对整个系统进行的分析。"></a>system-wide analysis 意思是对整个系统进行的分析。</h4><p>这个词语通常用在复杂的系统或组织上,表示要采取全面而综合的方式来分析这个系统。</p>
+<p>例如:</p>
+<ol>
+<li><p>对公司的system-wide analysis,以找出生产过程中的问题所在。</p>
+</li>
+<li><p>对城市交通系统进行system-wide analysis,以确定哪些地方出现拥堵。</p>
+</li>
+<li><p>对教育体系进行system-wide analysis,找出影响教学质量的因素。</p>
+</li>
+<li><p>对病人的健康问题进行system-wide analysis,不仅看身体症状,也要分析生活方式、工作环境等因素。</p>
+</li>
+<li><p>政府进行关于贫困问题的system-wide analysis,分析经济、社会、教育等各方面因素。</p>
+</li>
+</ol>
+<p>简单来说,system-wide analysis就是采取全面和综合的视角,从不同层面、不同方面来分析一个大系统,找出系统性的问题所在,并给出建议或解决方案。它强调问题的复杂性和系统性,而不仅仅局限在某个狭窄的视野或层面。</p>
+<p>capacity planning 翻译为容量规划或能力规划,是指对一个系统或组织的生产能力进行预估和规划,以满足当前和未来的业务需求。</p>
+<h4 id="capacity-planning-的主要目的是确保有充足的资源和能力来应对业务增长或客户需求的变化-避免因容量不足而影响业务运营。进行-capacity-planning-通常会考虑以下几个方面"><a href="#capacity-planning-的主要目的是确保有充足的资源和能力来应对业务增长或客户需求的变化-避免因容量不足而影响业务运营。进行-capacity-planning-通常会考虑以下几个方面" class="headerlink" title="capacity planning 的主要目的是确保有充足的资源和能力来应对业务增长或客户需求的变化,避免因容量不足而影响业务运营。进行 capacity planning 通常会考虑以下几个方面:"></a>capacity planning 的主要目的是确保有充足的资源和能力来应对业务增长或客户需求的变化,避免因容量不足而影响业务运营。进行 capacity planning 通常会考虑以下几个方面:</h4><ol>
+<li><p>分析历史需求模式,预测未来需求变化趋势。</p>
+</li>
+<li><p>评估现有设施、设备、人力等生产要素的能力和限制。</p>
+</li>
+<li><p>根据需求预测,计算所需要的新增产能。</p>
+</li>
+<li><p>制定容量扩充计划,如增加设备、场地、人员等。</p>
+</li>
+<li><p>确定所需资金投入,评估投资回报。</p>
+</li>
+<li><p>定期监控和审查已有容量,进行调整。</p>
+</li>
+<li><p>平衡好过剩和不足的风险。</p>
+</li>
+</ol>
+<p>Capacity planning 适用于各种系统,如生产系统、仓储系统、IT系统、服务系统等。实施容量规划可以提高资源利用率,控制成本,为业务扩张做好准备。它通常是企业战略规划的重要组成部分。</p>
+<p>性能领域包括以下事情</p>
+<ol>
+<li>设置性能目标和建立性能模型</li>
+<li>基于软件或硬件原型进行性能特征归纳</li>
+<li>对开发代码进行性能分析（软件整合之前）</li>
+<li>执行软件非回归性测试（软件发布前或发布后）</li>
+<li>针对软件发布版本的基准测试</li>
+<li>目标环境中的概念验证（Proof-of-concept）测试</li>
+<li>生产环境部署的配置优化</li>
+<li>监控生产环境中运行的软件</li>
+<li>特定问题的性能分析</li>
+</ol>
+<h4 id="Proof-of-concept-翻译为“概念证明”-意思是对一个想法、设计或方法的可行性进行验证和证明。"><a href="#Proof-of-concept-翻译为“概念证明”-意思是对一个想法、设计或方法的可行性进行验证和证明。" class="headerlink" title="Proof-of-concept 翻译为“概念证明”,意思是对一个想法、设计或方法的可行性进行验证和证明。"></a>Proof-of-concept 翻译为“概念证明”,意思是对一个想法、设计或方法的可行性进行验证和证明。</h4><p>通常包含以下主要特征:</p>
+<ol>
+<li><p>用最小可行的产品或方法来验证某一概念或理论是否可行。</p>
+</li>
+<li><p>目标是展示该概念在解决特定问题或需求方面的潜力和可行性。</p>
+</li>
+<li><p>可以是原型,也可以是模拟实验、模型等。重点在于获取验证该概念的有效性所需的预期数据。</p>
+</li>
+<li><p>如果结果满足预期,则提供继续投入研发的依据。如果不符合,则需要调整甚至放弃该概念。</p>
+</li>
+<li><p>整个过程充满试验性质,目标不是最终成品。</p>
+</li>
+</ol>
+<p>举例来说,一个新产品在上市前会先做Proof-of-concept,来证明该产品的核心技术和设计在功能和用户体验上是可行的。一个医疗项目也会在临床试验前进行Proof-of-concept,以验证该疗法的科学理论基础。</p>
+<p>所以,Proof-of-concept对于验证新想法的可行性非常重要,可以在投入大量资源开发前检验风险。它是任何概念从理论到实践的重要一步。</p>
+<h4 id="负载分析-Load-Analysis-和资源分析-Resource-Analysis-都是对系统的性能和容量进行分析评估的方法。"><a href="#负载分析-Load-Analysis-和资源分析-Resource-Analysis-都是对系统的性能和容量进行分析评估的方法。" class="headerlink" title="负载分析(Load Analysis)和资源分析(Resource Analysis)都是对系统的性能和容量进行分析评估的方法。"></a>负载分析(Load Analysis)和资源分析(Resource Analysis)都是对系统的性能和容量进行分析评估的方法。</h4><p>负载分析主要是分析系统在正常或峰值负载下的运行状况,关键在于负载(Load)。</p>
+<ul>
+<li><p>它侧重对系统所承受的负载进行计量,如网络流量、并发用户请求、每秒交易量等。</p>
+</li>
+<li><p>通过设定不同负载参数,模拟系统在不同负载下的性能表现。</p>
+</li>
+<li><p>目的是确定系统的负载容量,防止超载,提供合理配置。</p>
+</li>
+</ul>
+<p>资源分析主要是分析系统所需要的各种资源状况,关键在于资源(Resource)。</p>
+<ul>
+<li><p>它侧重对系统所需的关键资源进行分析,如服务器、带宽、内存、存储等。</p>
+</li>
+<li><p>对各种资源的供给与消耗情况进行测量和评估。</p>
+</li>
+<li><p>目的是合理配置和调配资源,提供系统所需的资源支持。</p>
+</li>
+</ul>
+<p>简单来说,负载分析关注输入量,资源分析关注处理能力。它们通常要结合进行,才能全面评估系统的性能和容量,做出优化的配置和扩容方案。二者都是对系统的容量进行考量,但侧重点不同。</p>
+<h2 id="纳秒（ns）：10-9秒-编辑"><a href="#纳秒（ns）：10-9秒-编辑" class="headerlink" title="纳秒（ns）：10-9秒[编辑]"></a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A5%88%E7%A7%92">纳秒</a>（ns）：10-9秒[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E6%95%B0%E9%87%8F%E7%BA%A7_(%E6%97%B6%E9%97%B4)&action=edit&section=7">编辑</a>]</h2><p>1纳秒(nanoseconds)即1000皮秒；也叫纳秒、奈秒、诺秒、纤秒、那诺秒、毫微秒。</p>
+<ul>
+<li>1纳秒– 1GHz的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/CPU">CPU</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%97%B6%E9%92%9F%E5%91%A8%E6%9C%9F">时钟周期</a>，该<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%91%A8%E6%9C%9F">周期</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%97%A0%E7%BA%BF%E7%94%B5%E6%B3%A2">无线电波</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%B3%A2%E9%95%BF">波长</a>0.3<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B1%B3_(%E5%8D%95%E4%BD%8D)">米</a>。</li>
+<li>3.3纳秒 – 光传播一米所使用的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4">时间</a>。</li>
+<li>10.9纳秒 – 铯 133 原子基态的超精细能级跃迁周期的大致长度。这个周期被用来定义秒的长度。</li>
+<li>10纳秒 – 该<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%91%A8%E6%9C%9F">周期</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%97%A0%E7%BA%BF%E7%94%B5%E6%B3%A2">无线电波</a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%B3%A2%E9%95%BF">波长</a>3<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%B1%B3_(%E5%8D%95%E4%BD%8D)">米</a>。（<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/VHF">VHF</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%A2%91%E7%8E%87%E8%B0%83%E5%88%B6">FM</a>波段）</li>
+<li>12纳秒 – K<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BB%8B%E5%AD%90">介子</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8D%8A%E8%A1%B0%E6%9C%9F">半衰期</a>。</li>
+<li>100纳秒 – <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9F%AD%E6%B3%A2">短波</a>周期。</li>
+<li>300纳秒 – <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%92%AB">钫-233</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8D%8A%E8%A1%B0%E6%9C%9F">半衰期</a></li>
+</ul>
+<h2 id="微秒（µs）：10-6秒-编辑"><a href="#微秒（µs）：10-6秒-编辑" class="headerlink" title="微秒（µs）：10-6秒[编辑]"></a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BE%AE%E7%A7%92">微秒</a>（µs）：10-6秒[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E6%95%B0%E9%87%8F%E7%BA%A7_(%E6%97%B6%E9%97%B4)&action=edit&section=8">编辑</a>]</h2><p>1微秒（microsecond）即1000纳秒。</p>
+<ul>
+<li>1微秒 – 商业高速<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%A2%91%E9%97%AA%E8%A7%82%E6%B5%8B%E5%99%A8">频闪观测器</a>的闪动时间。</li>
+<li>22.7微秒 – <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/CD">CD</a>音乐的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%87%87%E6%A0%B7">采样</a>间隔（44.1<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/KHz">KHz</a>）</li>
+<li>50微秒 – 人能够听到的最高<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%A2%91%E7%8E%87">频率</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A3%B0%E9%9F%B3">声音</a>的周期（20<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/KHz">KHz</a>）。</li>
+<li>125微秒 – <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%94%B5%E8%AF%9D">电话</a>声音的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%87%87%E6%A0%B7">采样</a>间隔。（8<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/KHz">KHz</a>）</li>
+</ul>
+<h2 id="毫秒（ms）：10-3秒-编辑"><a href="#毫秒（ms）：10-3秒-编辑" class="headerlink" title="毫秒（ms）：10-3秒[编辑]"></a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%AF%AB%E7%A7%92">毫秒</a>（ms）：10-3秒[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E6%95%B0%E9%87%8F%E7%BA%A7_(%E6%97%B6%E9%97%B4)&action=edit&section=9">编辑</a>]</h2><p>1毫秒(millisecond)即1000微秒。</p>
+<ul>
+<li>1毫秒 – 大部分电脑计算时间的基本单位。许多程式计算<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BB%B6%E9%81%B2">延迟</a>的基本单位。</li>
+<li>2.4毫秒 – <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%8E%B6">鿔元素</a>的半衰期。</li>
+<li>3毫秒 – <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%92%BC%E8%A0%85">苍蝇</a> 搧一次<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BF%85%E8%86%80">翅膀</a>的时间。</li>
+<li>5毫秒 – <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%9C%9C%E8%9C%82">蜜蜂</a> 搧一次<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BF%85%E8%86%80">翅膀</a>的时间。</li>
+</ul>
+<h2 id="秒（s）-编辑"><a href="#秒（s）-编辑" class="headerlink" title="秒（s）[编辑]"></a><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%A7%92">秒</a>（s）[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/w/index.php?title=%E6%95%B0%E9%87%8F%E7%BA%A7_(%E6%97%B6%E9%97%B4)&action=edit&section=10">编辑</a>]</h2><p>国际单位制中时间的基本单位，本页面的单位基准。1秒即1000毫秒。</p>
+<p>一般很少使用比秒更大的字头单位（如千秒等），而用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B0%8F%E6%97%B6">小时</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%97%A5">日</a>、<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B9%B4">年</a> 等。</p>
+<ul>
+<li>60秒 – 1<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%88%86%E9%92%9F">分钟</a>的长度。</li>
+</ul>
+<h4 id="延时-Latency-是一个常见的性能指标-在性能测试中起着非常重要的作用。"><a href="#延时-Latency-是一个常见的性能指标-在性能测试中起着非常重要的作用。" class="headerlink" title="延时(Latency)是一个常见的性能指标,在性能测试中起着非常重要的作用。"></a>延时(Latency)是一个常见的性能指标,在性能测试中起着非常重要的作用。</h4><p>简单来说,延时是指系统处理一个请求或者完成一个操作所花费的时间。它反映了系统的响应快慢。常见的延时指标有:</p>
+<ul>
+<li><p>网络延时:数据从发送端传到接收端所花费的时间。反映了网络的传输速度。</p>
+</li>
+<li><p>服务延时:服务端处理一个请求并返回响应结果所花费的时间。反映了服务的响应效率。</p>
+</li>
+<li><p>事务延时:用户发起一个业务操作直到得到结果所花费的时间。反映了整个业务流程的执行效率。</p>
+</li>
+</ul>
+<p>影响延时的因素有:网络带宽、系统架构、代码优化、服务器性能等。延时过高会严重影响用户体验。</p>
+<p>在性能测试中,关注延时指标可以帮助我们:</p>
+<ul>
+<li><p>定位系统瓶颈,发现性能问题所在。</p>
+</li>
+<li><p>对比不同配置下的延时曲线,找出最优方案。 </p>
+</li>
+<li><p>设置延时阈值,避免响应过慢影响业务。</p>
+</li>
+<li><p>模拟不同并发用户下的延时情况。</p>
+</li>
+</ul>
+<p>通过延时分析,可以持续优化系统性能,提升用户体验,这是每一个资深性能测试工程师必备的专业技能。</p>
+<h4 id="每秒发生的IO次数-IOPS-是评测存储系统性能的一个重要指标。"><a href="#每秒发生的IO次数-IOPS-是评测存储系统性能的一个重要指标。" class="headerlink" title="每秒发生的IO次数(IOPS)是评测存储系统性能的一个重要指标。"></a>每秒发生的IO次数(IOPS)是评测存储系统性能的一个重要指标。</h4><p>IOPS表示在一秒内系统能够执行的输入输出(Input/Output)操作总次数。输入输出操作包括读取和写入操作。</p>
+<p>一般来说,IOPS值越高,说明存储系统能够处理的IO请求越多,性能也就越好。</p>
+<p>影响IOPS的因素有:</p>
+<ul>
+<li>硬盘转速,如普通硬盘转速较慢,固态硬盘转速更快</li>
+<li>随机或顺序读取写入,随机IO性能较差</li>
+<li>队列深度,请求越多,等待处理的队列越长</li>
+<li>读取写入比例,读写比例不均衡也会降低IOPS</li>
+</ul>
+<p>IOPS常见的应用场景:</p>
+<ul>
+<li>评估存储系统能力,是否满足业务需求</li>
+<li>对比不同存储配置的性价比</li>
+<li>定位存储性能瓶颈</li>
+<li>监控存储性能变化趋势</li>
+</ul>
+<p>提高IOPS可以改善存储读写性能,提升系统整体响应速度。所以IOPS是一个非常重要的性能指标,需要关注和分析。</p>
+<h2 id="TCP-Handshake"><a href="#TCP-Handshake" class="headerlink" title="TCP Handshake"></a>TCP Handshake</h2><p>![TCP Handshake](<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/Kapture">https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/Kapture</a> 2023-09-23 at 19.54.29.gif)</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/623872411.html"><span>大宋词龙——辛稼轩</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/623872411.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-09-03T15:16:28.000Z">
+          2023-09-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>辛弃疾，字幼安，号稼轩居士。出生在被金国占领的宋朝领土——山东，但是抗金归宋。</p>
+<p>辛弃疾是一个比苏轼更让我敬佩的词人。</p>
+<p>辛弃疾这人我们大部分都是在课本上了解到他作为词人、文人的一面。我们的老师可能会讲：辛弃疾是宋朝豪放派的词人。但是仅仅一个豪放完全不能代表辛弃疾这个人。他的豪情壮志，他的勇谋双绝，他的爱国情怀都是无法简单用“豪放”二字能概括的。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/历史-过去未来/">历史,过去未来</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/blog/429901474.html"><span>我们都应该读读《生活与命运》</span></a></h3>
     
   
@@ -492,197 +825,6 @@
     <span class="post-tags">
       <i class="icon-tags"></i>
         <a href="/tags/读书笔记/">读书笔记</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/blog/2785195764.html"><span>图解密码技术-CTR模式</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/blog/2785195764.html" rel="bookmark">
-        <time class="entry-date published" datetime="2023-08-16T14:07:51.000Z">
-          2023-08-16
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="常见的分组密码以及特点"><a href="#常见的分组密码以及特点" class="headerlink" title="常见的分组密码以及特点"></a>常见的分组密码以及特点</h2><p>常见的分组密码有DES、AES、SM4、Blowfish等。</p>
-<p>分组密码的特点</p>
-<ol>
-<li>分组长度固定，常见的块长度有64位、128位、256位等</li>
-<li>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</li>
-<li>使用对称密钥，加解密使用的是同一个密钥</li>
-<li>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</li>
-</ol>
-<h2 id="分组密码的工作模式"><a href="#分组密码的工作模式" class="headerlink" title="分组密码的工作模式"></a>分组密码的工作模式</h2>
-        
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/blog/3573874495.html"><span>图解密码技术-对CFB模式的攻击</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/blog/3573874495.html" rel="bookmark">
-        <time class="entry-date published" datetime="2023-08-14T14:40:07.000Z">
-          2023-08-14
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="CFB模式简介"><a href="#CFB模式简介" class="headerlink" title="CFB模式简介"></a>CFB模式简介</h2><p>CFB模式全称是（Cipher FeedBack）<strong>密文反馈模式</strong>。加密方式是前一个密文分组会被送回到密码算法的输入端。简单理解就是，前一个密文分组在此加密后会当作下一次与明文异或运算的一部分，依次类推。如图：</p>
-<img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230810223911494.png" alt="image-20230810223911494" style="zoom:100%;" />
-
-<h2 id="CFB模式的解密"><a href="#CFB模式的解密" class="headerlink" title="CFB模式的解密"></a>CFB模式的解密</h2><p>因为CFB模式的加密利用了前一个密文分组，则解密的核心思路就是利用前一个明文分组的加密结果和当前密文进行异或运算得到当前明文。</p>
-<h3 id="文字步骤如下："><a href="#文字步骤如下：" class="headerlink" title="文字步骤如下："></a>文字步骤如下：</h3><ol>
-<li>解密端获得密文块C1、C2、C3…以及一个初始向量IV。</li>
-<li>将IV进行加密,获得第一个密钥块K1。(使用的密钥和加密算法与加密端相同)</li>
-<li>将密钥块K1与密文块C1进行异或,得到明文块P1。</li>
-<li>将刚刚解密得到的明文块P1再次进行加密,生成下一个密钥块K2。</li>
-<li>将K2与下一个密文块C2进行异或,得到明文块P2。</li>
-<li>依此类推,重复步骤4和5,直到所有密文全部解密。</li>
-</ol>
-<h3 id="图示："><a href="#图示：" class="headerlink" title="图示："></a>图示：</h3><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230814225641064.png" alt="image-20230814225641064" style="zoom:100%;" />
-
-<h2 id="CFB模式的攻击"><a href="#CFB模式的攻击" class="headerlink" title="CFB模式的攻击"></a>CFB模式的攻击</h2><p>书中提到了一种攻击方式是<strong>重放攻击。</strong>（replay attack）</p>
-<p>加入小美发送了一条信息，这条信息由4个密文组成。主动攻击者小明将消息的后3个密文分组保存下来，等第二天小美使用相同密钥再一次发送新消息的时候（新消息由4个新的密文组成）。小明就可以将昨天保存的密文分组进行替换。那么在解密的时候就会得到错误的信息。在真实的网络环境中，服务器与服务器之间的对话如果被攻击者利用进行重新发送或者延迟发送数据就会达到欺骗用户的目的。</p>
-        
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/blog/427224952.html"><span>图解密码技术-OFB模式</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/blog/427224952.html" rel="bookmark">
-        <time class="entry-date published" datetime="2023-08-11T15:02:01.000Z">
-          2023-08-11
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="常见的分组密码以及特点"><a href="#常见的分组密码以及特点" class="headerlink" title="常见的分组密码以及特点"></a>常见的分组密码以及特点</h2><p>常见的分组密码有DES、AES、SM4、Blowfish等。</p>
-<p>分组密码的特点</p>
-<ol>
-<li><p>分组长度固定，常见的块长度有64位、128位、256位等</p>
-</li>
-<li><p>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</p>
-</li>
-<li><p>使用对称密钥，加解密使用的是同一个密钥</p>
-</li>
-<li><p>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</p>
-        
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
     </span>
     
 

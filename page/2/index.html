@@ -67,6 +67,197 @@
 
   
     
+    <h3 class="article-title"><a href="/blog/2785195764.html"><span>图解密码技术-CTR模式</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/2785195764.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-16T14:07:51.000Z">
+          2023-08-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="常见的分组密码以及特点"><a href="#常见的分组密码以及特点" class="headerlink" title="常见的分组密码以及特点"></a>常见的分组密码以及特点</h2><p>常见的分组密码有DES、AES、SM4、Blowfish等。</p>
+<p>分组密码的特点</p>
+<ol>
+<li>分组长度固定，常见的块长度有64位、128位、256位等</li>
+<li>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</li>
+<li>使用对称密钥，加解密使用的是同一个密钥</li>
+<li>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</li>
+</ol>
+<h2 id="分组密码的工作模式"><a href="#分组密码的工作模式" class="headerlink" title="分组密码的工作模式"></a>分组密码的工作模式</h2>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/3573874495.html"><span>图解密码技术-对CFB模式的攻击</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/3573874495.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-14T14:40:07.000Z">
+          2023-08-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="CFB模式简介"><a href="#CFB模式简介" class="headerlink" title="CFB模式简介"></a>CFB模式简介</h2><p>CFB模式全称是（Cipher FeedBack）<strong>密文反馈模式</strong>。加密方式是前一个密文分组会被送回到密码算法的输入端。简单理解就是，前一个密文分组在此加密后会当作下一次与明文异或运算的一部分，依次类推。如图：</p>
+<img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230810223911494.png" alt="image-20230810223911494" style="zoom:100%;" />
+
+<h2 id="CFB模式的解密"><a href="#CFB模式的解密" class="headerlink" title="CFB模式的解密"></a>CFB模式的解密</h2><p>因为CFB模式的加密利用了前一个密文分组，则解密的核心思路就是利用前一个明文分组的加密结果和当前密文进行异或运算得到当前明文。</p>
+<h3 id="文字步骤如下："><a href="#文字步骤如下：" class="headerlink" title="文字步骤如下："></a>文字步骤如下：</h3><ol>
+<li>解密端获得密文块C1、C2、C3…以及一个初始向量IV。</li>
+<li>将IV进行加密,获得第一个密钥块K1。(使用的密钥和加密算法与加密端相同)</li>
+<li>将密钥块K1与密文块C1进行异或,得到明文块P1。</li>
+<li>将刚刚解密得到的明文块P1再次进行加密,生成下一个密钥块K2。</li>
+<li>将K2与下一个密文块C2进行异或,得到明文块P2。</li>
+<li>依此类推,重复步骤4和5,直到所有密文全部解密。</li>
+</ol>
+<h3 id="图示："><a href="#图示：" class="headerlink" title="图示："></a>图示：</h3><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230814225641064.png" alt="image-20230814225641064" style="zoom:100%;" />
+
+<h2 id="CFB模式的攻击"><a href="#CFB模式的攻击" class="headerlink" title="CFB模式的攻击"></a>CFB模式的攻击</h2><p>书中提到了一种攻击方式是<strong>重放攻击。</strong>（replay attack）</p>
+<p>加入小美发送了一条信息，这条信息由4个密文组成。主动攻击者小明将消息的后3个密文分组保存下来，等第二天小美使用相同密钥再一次发送新消息的时候（新消息由4个新的密文组成）。小明就可以将昨天保存的密文分组进行替换。那么在解密的时候就会得到错误的信息。在真实的网络环境中，服务器与服务器之间的对话如果被攻击者利用进行重新发送或者延迟发送数据就会达到欺骗用户的目的。</p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/427224952.html"><span>图解密码技术-OFB模式</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/427224952.html" rel="bookmark">
+        <time class="entry-date published" datetime="2023-08-11T15:02:01.000Z">
+          2023-08-11
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="常见的分组密码以及特点"><a href="#常见的分组密码以及特点" class="headerlink" title="常见的分组密码以及特点"></a>常见的分组密码以及特点</h2><p>常见的分组密码有DES、AES、SM4、Blowfish等。</p>
+<p>分组密码的特点</p>
+<ol>
+<li><p>分组长度固定，常见的块长度有64位、128位、256位等</p>
+</li>
+<li><p>可以将数据进行分组，切割为不同的数据块，每一块数据单独处理加密</p>
+</li>
+<li><p>使用对称密钥，加解密使用的是同一个密钥</p>
+</li>
+<li><p>加解密算法是确定的，相同的明文、密钥和加密算法会产生相同的密文</p>
+        
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/密码技术-读书笔记/">密码技术,读书笔记</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/blog/4282522732.html"><span>图解密码技术-CFB模式</span></a></h3>
     
   
@@ -436,116 +627,13 @@
 
 
 
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/blog/4218087443.html"><span>关于腰间盘突出</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/blog/4218087443.html" rel="bookmark">
-        <time class="entry-date published" datetime="2023-05-13T01:28:50.000Z">
-          2023-05-13
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="什么是椎间盘突出"><a href="#什么是椎间盘突出" class="headerlink" title="什么是椎间盘突出"></a>什么是椎间盘突出</h2><p>我们脊柱是由一堆称之为椎骨的骨头一个一个叠起来构成的。这些叠起来的骨头之间有一些起到缓冲作用的具有弹性的椎间盘。弹性椎间盘有一个比较柔软的类似果冻的中心或者髓核，这个“果冻”被坚韧的具有弹性的外壳包裹。如果这些弹性的椎间盘的外部出现撕裂，柔软的内部会滑溜出来，这就会导致椎间盘突出，也被称之为椎间盘滑出或者椎间盘撕裂。这种椎间盘损伤可能会刺激附近的神经，从而导致手臂或腿部疼痛、麻木或无力。</p>
-        
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/健康-一知半解/">健康,一知半解</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/blog/2432194193.html"><span>Java程序中出现大量CPU消耗问题的排查</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/blog/2432194193.html" rel="bookmark">
-        <time class="entry-date published" datetime="2023-05-10T13:42:47.240Z">
-          2023-05-10
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>项目中可能会出现消耗大量 CPU 的情况(如下图)，当我们发现这种情况应该怎么排查呢？</p>
-<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230521232200245.png" alt="image-20230521232200245"></p>
-<h2 id="top"><a href="#top" class="headerlink" title="top"></a>top</h2><p>首先使用<code>top</code>命令查看所有运行的进程占用资源的情况。可以看到上图中PID为14646的Java进程的CPU使用率达到了799.6%，这明显是有问题的。那我们应该怎么定位那一段代码出问题了呢？</p>
-<h2 id="jstack-p-pid"><a href="#jstack-p-pid" class="headerlink" title="jstack -p pid"></a>jstack -p pid</h2><p>使用 <code>top</code>命令可以得到进程的PID，上述Java程序的PID是14646，我们运行JDK自带的命令<code>jstack</code>命令 dump 正在运行的Java进程堆栈。（如下图）</p>
-<p><img src="https://raw.githubusercontent.com/onlywyt/wyt-pic/main/img/image-20230521230107816.png" alt="image-20230521230107816"></p>
-<p>我们根据<code>top</code>命令看到的线程的id（十进制）转为 十六进制，然后在上图中找到对应的堆栈，然后根据堆栈找到代码中的行号。</p>
-<p>这个简单的例子演示了<code>jstack -p pid </code>的使用方法以及生产环境中排查死锁、死循环等问题。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
 
 <nav class="pagination">
   
   <a href="/" class="pagination-prev">上一页</a>
   
+  
+  <a href="/page/3/" class="pagination-next">下一页</a>
   
 </nav>
     </main>
